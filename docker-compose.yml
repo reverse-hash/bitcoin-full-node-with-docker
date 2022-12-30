@@ -1,0 +1,54 @@
+version: '3.8'
+services:
+  tor:
+    image: 'tor:$TOR_VERSION'
+    build:
+      context: ./tor
+      args:
+        - TOR_VERSION=$TOR_VERSION
+        - TOR_PLATFORM=$TOR_PLATFORM
+    expose:
+      - '9050'
+    restart: always
+  bitcoincore:
+    image: 'bitcoin-core:$BITCOIN_VERSION'
+    depends_on:
+      - tor
+    build:
+      context: ./bitcoin-core
+      args:
+        - BITCOIN_VERSION=$BITCOIN_VERSION
+        - BITCOIN_PLATFORM=$BITCOIN_PLATFORM
+        - USER_ID=$SHARED_UID
+        - GROUP_ID=$SHARED_GID
+    ports:
+      - '$BITCOIN_RPC_PORT:8332'
+      - '$BITCOIN_P2P_PORT:8333'
+    volumes:
+      - '$BITCOIN_DATA:/home/bitcoin/.bitcoin'
+    restart: always
+  electrs:
+    image: 'electrs:$ELECTRS_VERSION'
+    depends_on:
+      - bitcoincore
+    build:
+      context: ./electrs
+      args:
+        - ELECTRS_VERSION=$ELECTRS_VERSION
+        - USER_ID=$SHARED_UID
+        - GROUP_ID=$SHARED_GID
+    volumes:
+      - '$BITCOIN_DATA:/home/electrs/.bitcoin'
+      - '$ELECTRS_DATA:/home/electrs/.electrs'
+    restart: always
+  btcrpcexplorer:
+    image: 'btc-rpc-explorer:$BTC_RPC_EXPLORER_VERSION'
+    depends_on:
+      - bitcoincore
+    build:
+      context: ./btc-rpc-explorer
+      args:
+        - BTC_RPC_EXPLORER_VERSION=$BTC_RPC_EXPLORER_VERSION
+    ports:
+      - '$BTC_RPC_EXPLORER_HTTP_PORT:3002'
+    restart: always
