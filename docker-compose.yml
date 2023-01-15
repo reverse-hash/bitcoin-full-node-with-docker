@@ -1,54 +1,84 @@
 version: '3.8'
 services:
   tor:
-    image: 'tor:$TOR_VERSION'
+    image: tor:$TOR_VERSION
     build:
       context: ./tor
       args:
         - TOR_VERSION=$TOR_VERSION
         - TOR_PLATFORM=$TOR_PLATFORM
-    expose:
-      - '9050'
-    restart: always
-  bitcoincore:
-    image: 'bitcoin-core:$BITCOIN_VERSION'
+        - GROUP_ID=$SHARED_GID
+    volumes:
+      - $TOR_DATA:/home/tor
+    restart: on-failure
+    networks:
+      default:
+        ipv4_address: 172.18.0.2
+  bitcoind:
+    image: bitcoind:$BITCOIN_VERSION
     depends_on:
       - tor
     build:
-      context: ./bitcoin-core
+      context: ./bitcoind
       args:
         - BITCOIN_VERSION=$BITCOIN_VERSION
         - BITCOIN_PLATFORM=$BITCOIN_PLATFORM
-        - USER_ID=$SHARED_UID
         - GROUP_ID=$SHARED_GID
-    ports:
-      - '$BITCOIN_RPC_PORT:8332'
-      - '$BITCOIN_P2P_PORT:8333'
     volumes:
-      - '$BITCOIN_DATA:/home/bitcoin/.bitcoin'
-    restart: always
+      - $BITCOIN_DATA:/home/bitcoin/.bitcoin
+    restart: unless-stopped
+    networks:
+      default:
+        ipv4_address: 172.18.0.3
   electrs:
-    image: 'electrs:$ELECTRS_VERSION'
+    image: electrs:$ELECTRS_VERSION
     depends_on:
-      - bitcoincore
+      - bitcoind
     build:
       context: ./electrs
       args:
         - ELECTRS_VERSION=$ELECTRS_VERSION
-        - USER_ID=$SHARED_UID
         - GROUP_ID=$SHARED_GID
     volumes:
-      - '$BITCOIN_DATA:/home/electrs/.bitcoin'
-      - '$ELECTRS_DATA:/home/electrs/.electrs'
-    restart: always
+      - $BITCOIN_DATA:/home/electrs/.bitcoin
+      - $ELECTRS_DATA:/home/electrs/.electrs
+    restart: on-failure
+    networks:
+      default:
+        ipv4_address: 172.18.0.4
   btcrpcexplorer:
-    image: 'btc-rpc-explorer:$BTC_RPC_EXPLORER_VERSION'
+    image: btc-rpc-explorer:$BTC_RPC_EXPLORER_VERSION
     depends_on:
-      - bitcoincore
+      - bitcoind
+      - electrs
     build:
       context: ./btc-rpc-explorer
       args:
         - BTC_RPC_EXPLORER_VERSION=$BTC_RPC_EXPLORER_VERSION
+        - GROUP_ID=$SHARED_GID
+    volumes:
+      - $BTC_RPC_EXPLORER_DATA:/home/btcrpcexplorer/.config
+    restart: on-failure
+    networks:
+      default:
+        ipv4_address: 172.18.0.5
+  nginx:
+    image: nginx:stable-alpine
+    depends_on:
+      - btcrpcexplorer
+      - electrs
     ports:
-      - '$BTC_RPC_EXPLORER_HTTP_PORT:3002'
-    restart: always
+      - $BTC_RPC_EXPLORER_HTTPS_PORT:3003
+      - $ELECTRS_SSL_PORT:50002
+    volumes:
+      - /mnt/external/nginx:/etc/nginx
+    networks:
+      default:
+        ipv4_address: 172.18.0.6
+
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 172.18.0.0/16
+          gateway: 172.18.0.1

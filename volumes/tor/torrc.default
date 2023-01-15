@@ -1,0 +1,10 @@
+# Socks listen port
+SocksPort 172.18.0.2:9050
+
+# Uncomment to expose Bitcoin Explorer as an Onion Service
+#HiddenServiceDir /home/tor/btc-rpc-explorer
+#HiddenServicePort 3003 nginx:3003
+
+# Uncomment to expose Electrs as an Onion Service
+#HiddenServiceDir /home/tor/electrs
+#HiddenServicePort 50002 nginx:50002

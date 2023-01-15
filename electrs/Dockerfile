@@ -1,33 +1,23 @@
-FROM debian:stable-slim
-
+FROM debian:stable-slim AS build
 ARG ELECTRS_VERSION
-ARG USER_ID
-ARG GROUP_ID
-
-ENV PATH=/opt/electrs:$PATH
-
-RUN apt-get update -y \
-  && apt-get install wget cargo clang cmake build-essential -y \
-  && apt-get clean
-
-RUN mkdir /tmp/electrs \
+RUN apt-get update \
+  && apt-get install build-essential cargo cmake clang wget -y \
+  && apt-get clean \
+  && mkdir /tmp/electrs \
   && cd /tmp/electrs \
   && wget https://github.com/romanz/electrs/archive/refs/tags/v${ELECTRS_VERSION}.tar.gz \
   && tar -xzf /tmp/electrs/*.tar.gz -C /tmp/electrs \
   && cd /tmp/electrs/electrs-${ELECTRS_VERSION} \
-  && cargo build --no-default-features --locked --release
-  
-RUN mkdir /opt/electrs \
-  && mv /tmp/electrs/electrs-${ELECTRS_VERSION}/target/release/electrs /opt/electrs/electrs \
-  && groupadd electrs -g ${GROUP_ID} \
-  && useradd -u ${USER_ID} -g ${GROUP_ID} -m electrs \
+  && cargo build --no-default-features --locked --release \
+  && mv /tmp/electrs/electrs-${ELECTRS_VERSION}/target/release/electrs /usr/local/bin/electrs
+
+FROM debian:stable-slim
+ARG GROUP_ID
+COPY --from=build /usr/local/bin/electrs /usr/local/bin/electrs
+RUN addgroup --gid ${GROUP_ID} electrs \
+  && adduser --disabled-password --gecos "" --ingroup electrs electrs \
   && mkdir /home/electrs/.electrs \
   && chown electrs:electrs /home/electrs/.electrs
-
-COPY --chown=electrs:electrs electrs.conf /home/electrs/.electrs/electrs.conf
-  
-RUN apt-get remove wget cargo clang cmake build-essential -y \
-  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 USER electrs
 

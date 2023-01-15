@@ -1,31 +1,27 @@
-FROM debian:stable-slim
-
+FROM alpine:latest AS build
 ARG TOR_VERSION
 ARG TOR_PLATFORM
-
-ENV PATH=/opt/tor:$PATH
-ENV LD_LIBRARY_PATH=/opt/tor:$LD_LIBRARY_PATH
-
-RUN apt-get update -y \
-  && apt-get install gpg wget -y \
-  && apt-get clean
-
-RUN mkdir /tmp/tor \
-  && cd /tmp/tor \
+RUN apk update \
+  && apk add --no-cache dirmngr gpg gpg-agent wget \
+  && cd /tmp \
   && wget https://www.torproject.org/dist/torbrowser/${TOR_VERSION}/tor-expert-bundle-${TOR_VERSION}-${TOR_PLATFORM}.tar.gz.asc \
   && wget https://www.torproject.org/dist/torbrowser/${TOR_VERSION}/tor-expert-bundle-${TOR_VERSION}-${TOR_PLATFORM}.tar.gz \
   && gpg --auto-key-locate nodefault,wkd --locate-keys torbrowser@torproject.org \
   && gpg --verify tor-expert-bundle-${TOR_VERSION}-${TOR_PLATFORM}.tar.gz.asc \
-  && if [ "1" -lt $(gpg --verify SHA256SUMS.asc 2>&1 >/dev/null | grep 'Good Signature' -c) ]; then exit 1; fi
+  && if [ "1" -lt $(gpg --verify SHA256SUMS.asc 2>&1 >/dev/null | grep 'Good Signature' -c) ]; then exit 1; fi \
+  && tar -xzf *.tar.gz -C . \
+  && rm -rf tor/debug tor/data tor/pluggable_transports \
+  && chmod -R 755 tor \
+  && apk del dirmngr gpg gpg-agent wget
 
-RUN tar -xzf /tmp/tor/*.tar.gz -C /opt \
-  && useradd -m tor \
-  && chmod -R 755 /opt/tor
 
-COPY --chown=tor:tor torrc.default /home/tor/torrc.default
-  
-RUN apt-get remove gpg wget -y \
-  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /opt/tor/debug /opt/tor/data
+FROM debian:stable-slim
+ARG GROUP_ID
+COPY --from=build /tmp/tor /opt/tor
+ENV PATH=$PATH:/opt/tor
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/tor
+RUN addgroup --gid ${GROUP_ID} tor \
+  && adduser --disabled-password --gecos "" --ingroup tor tor
 
 EXPOSE 9050
 

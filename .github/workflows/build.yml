@@ -1,0 +1,12 @@
+name: Build images
+on:
+  schedule:
+    - cron: 0 0 * * *
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Build service images
+        run: docker-compose build -d

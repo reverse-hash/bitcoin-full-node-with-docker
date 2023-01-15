@@ -1,16 +1,14 @@
-# Bitcoin full node with Docker
+# Installation
 
+## Setup the host machine
 
-## First setup
-
-Create a new group in the host machine. This group will be used to handle shared files between the containers and the host machine. We will use `1099` as group identifier, it can be any other positive number, but we will take this as an example. The name can also be any other.
-
+Create a new group to control file sharing permissions between the local machine and the containers.
 
 ```
-$ sudo groupadd --gid 1099 btcnode
+$ sudo groupadd btcnode
 ```
 
-Add your host user to this group. For this example, the username on the host is satoshi.
+Then add your local user to this group. For this example, the main user on the local machine is satoshi.
 
 ```
 $ sudo usermod -a -G btcnode satoshi
@@ -27,8 +25,14 @@ $ sudo chmod +X -R /your/custom/path/volumes/*
 
 Next, edit the `.env` file in the root of the repository. The file name starts with a dot, so it may not be visible. Edit it and adjust the following parameters.
 
+
 ```
-# The group identifier we created previously, if you have not changed it, leave it as it is.
+$ getent group btcnode
+btcnode:x:1099:satoshi
+```
+
+```
+# The group identifier we created previously.Check the documentation to know how to obtain this identifier.
 SHARED_GID=1099
 
 # The paths where to mount the volumes. You *must* adjust these values to your system and map them to the correct paths:
@@ -38,7 +42,7 @@ BTC_RPC_EXPLORER_DATA=/mnt/hdd/btcrpcexplorer
 
 ```
 
-
+```
 
 $ docker-compose up tor -d 
 $ docker ps # List existing containers
@@ -60,9 +64,9 @@ $ docker logs -f <tor container id> # Verify that tor is running correctly
 
 
 ```
-$ docker-compose up bitcoincore -d
+$ docker-compose up bitcoind -d
 $ docker ps # List existing containers
-$ docker logs -f <bitcoincore container id> # Verify that bitcoincore is running correctly
+$ docker logs -f <bitcoind container id> # Verify that bitcoind is running correctly
 # You should see it synchronizing blocks as follows:
 #
 # Bitcoin Core version v24.0.1 (release build)
