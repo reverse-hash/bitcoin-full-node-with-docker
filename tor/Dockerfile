@@ -23,8 +23,6 @@ ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/tor
 RUN addgroup --gid ${GROUP_ID} tor \
   && adduser --disabled-password --gecos "" --ingroup tor tor
 
-EXPOSE 9050
-
 USER tor
 
 CMD tor -f ~/torrc.default

@@ -11,6 +11,7 @@ RUN apt-get update \
   && cargo build --no-default-features --locked --release \
   && mv /tmp/electrs/electrs-${ELECTRS_VERSION}/target/release/electrs /usr/local/bin/electrs
 
+
 FROM debian:stable-slim
 ARG GROUP_ID
 COPY --from=build /usr/local/bin/electrs /usr/local/bin/electrs
