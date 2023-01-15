@@ -63,7 +63,7 @@ services:
       default:
         ipv4_address: 172.18.0.5
   nginx:
-    image: nginx:stable-alpine
+    image: nginx:alpine-slim
     depends_on:
       - btcrpcexplorer
       - electrs
@@ -71,7 +71,7 @@ services:
       - $BTC_RPC_EXPLORER_HTTPS_PORT:3003
       - $ELECTRS_SSL_PORT:50002
     volumes:
-      - /mnt/external/nginx:/etc/nginx
+      - $NGINX_DATA:/etc/nginx
     networks:
       default:
         ipv4_address: 172.18.0.6
