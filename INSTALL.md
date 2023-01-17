@@ -4,7 +4,7 @@
 
 Create a new group to control file sharing permissions between the local machine and the containers.
 
-```
+```shell
 $ sudo groupadd btcnode
 ```
 
