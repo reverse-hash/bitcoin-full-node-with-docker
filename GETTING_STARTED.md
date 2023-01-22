@@ -47,7 +47,7 @@ Probably, you want to store the blockchain to some external device or directory 
 $ sudo copy -R <repository>/volumes/* /mnt/hdd
 ```
 
-Next, change the ownership and permission level for the volumes. Note that we are using the main user and the group we created. In this way, `satoshi` will be able to read and write those files as the owner and on the other hand, the container processes will be in the btcnode group and will also be able to.
+Next, change the group and permission level for the volumes. Note In this way, `satoshi` will be able to read and write those files and also the contained processes manage by docker:
 
 ```shell
 $ sudo chgrp btcnode -R /mnt/hdd/*
@@ -133,13 +133,3 @@ $ openssl req -newkey rsa:4096 -x509 -sha256 -days 3650 -nodes -out btcnode.crt 
 # all enter
 ```
 
-
-
-
-Tools:
-
-https://jlopp.github.io/bitcoin-core-config-generator/
-# We can generate this value at https://jlopp.github.io/bitcoin-core-rpc-auth-generator.
-
-
-https://github.com/emmanuelrosa/bitcoin-onion-nodes
