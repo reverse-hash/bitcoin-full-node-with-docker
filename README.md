@@ -16,7 +16,7 @@
   </p>
 
    <strong><a href="#documentation">Documentation</a> </strong>
-   | <strong><a href="discussions">Support</a></strong>
+   | <strong><a href="/discussions">Support</a></strong>
    | <strong><a href="./FAQ.md">FAQ</a></strong>
 </div>
 
