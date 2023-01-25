@@ -35,7 +35,7 @@ $ getent group btcnode
 btcnode:x:1099:satoshi
 ```
 
-Then add your host user to this group. For this example, the main user is `satoshi`.
+Then add your host user to this group. For this example, the user is `satoshi`.
 
 ```shell
 $ sudo usermod -a -G btcnode satoshi
@@ -47,7 +47,7 @@ Probably, you want to store the blockchain to some external device or directory 
 $ sudo copy -R <repository>/volumes/* /mnt/hdd
 ```
 
-Next, change the group and permission level for the volumes. Note In this way, `satoshi` will be able to read and write those files and also the contained processes manage by docker:
+Next, change the group and permission level for the volumes. In this way, all `btcnode` users will be able to read and write shared files on that folder:
 
 ```shell
 $ sudo chgrp btcnode -R /mnt/hdd/*

@@ -44,7 +44,7 @@ So here we are and this is what we have:
 
 As Bob, you will have a dockerized node that you can access on your LAN. On port 50002 you will have an <a href="https://github.com/romanz/electrs">Electrs</a> service to connect <a href="https://github.com/spesmilo/electrum">Electrum</a>, <a href="https://github.com/sparrowwallet/sparrow">Sparrow</a>, <a href="https://github.com/bluewallet/bluewallet">Bluewallet</a> or any Electrum compatible wallet to check your balances and/or broadcast any transaction privately. In addition, via HTTPS on port 3003, you will have access to <a href="https://github.com/janoside/btc-rpc-explorer">BTC RPC Explorer</a> to explore the blockchain privately.
 
-Your node will participate in the Bitcoin network through Tor, exchanging blocks with other nodes; and optionally, it will be accesible from anywhere also through Tor.
+Your node will participate in the Bitcoin network exchanging blocks with other nodes through Tor; and optionally, it will be accesible from anywhere also through Tor.
 
 ![Diagram](.doc/readme/diagram.svg)
 
