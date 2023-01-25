@@ -1,10 +1,12 @@
 FROM alpine:latest AS build
 ARG BTC_RPC_EXPLORER_VERSION
-RUN apk --update add wget \
-  && wget https://github.com/janoside/btc-rpc-explorer/archive/refs/tags/v${BTC_RPC_EXPLORER_VERSION}.tar.gz -P /tmp \
-  && tar -zxf /tmp/v${BTC_RPC_EXPLORER_VERSION}.tar.gz -C /opt \
-  && mv /opt/btc-rpc-explorer-${BTC_RPC_EXPLORER_VERSION} /opt/btc-rpc-explorer \
-  && chmod 755 -R /opt/btc-rpc-explorer
+RUN apk --update add curl git gpg gpg-agent \
+  && cd /opt \
+  && curl https://keybase.io/danjanosik/pgp_keys.asc | gpg --import \
+  && git clone --branch v${BTC_RPC_EXPLORER_VERSION} https://github.com/janoside/btc-rpc-explorer.git \
+  && cd btc-rpc-explorer \
+  && git verify-tag v${BTC_RPC_EXPLORER_VERSION} \
+  && chmod 755 -R .
 
 
 FROM node:16-slim

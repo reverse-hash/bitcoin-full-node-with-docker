@@ -11,8 +11,7 @@ RUN apk update \
   && if [ "1" -lt $(gpg --verify SHA256SUMS.asc 2>&1 >/dev/null | grep 'Good Signature' -c) ]; then exit 1; fi \
   && tar -xzf *.tar.gz -C . \
   && rm -rf tor/debug tor/data tor/pluggable_transports \
-  && chmod -R 755 tor \
-  && apk del dirmngr gpg gpg-agent wget
+  && chmod -R 755 tor
 
 
 FROM debian:stable-slim

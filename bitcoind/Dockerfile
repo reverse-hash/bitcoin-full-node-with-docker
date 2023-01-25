@@ -18,8 +18,7 @@ RUN apk update \
   && if [ "3" -lt $(gpg --verify SHA256SUMS.asc 2>&1 >/dev/null | grep 'Good Signature' -c) ]; then exit 1; fi \
   && wget https://bitcoincore.org/bin/bitcoin-core-${BITCOIN_VERSION}/bitcoin-${BITCOIN_VERSION}-${BITCOIN_PLATFORM}.tar.gz \
   && cat SHA256SUMS | grep bitcoin-${BITCOIN_VERSION}-${BITCOIN_PLATFORM}.tar.gz | sha256sum -c \
-  && tar -xvzf bitcoin-*.tar.gz -C /usr/local/bin bitcoin-${BITCOIN_VERSION}/bin/bitcoind --strip-components 2 \
-  && apk del gpg gpg-agent wget
+  && tar -xvzf bitcoin-*.tar.gz -C /usr/local/bin bitcoin-${BITCOIN_VERSION}/bin/bitcoind --strip-components 2
 
 
 FROM debian:stable-slim
