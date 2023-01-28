@@ -3,8 +3,7 @@ ARG BITCOIN_VERSION
 ARG BITCOIN_PLATFORM
 RUN apk update \
   && apk add --no-cache gpg gpg-agent wget \
-  && mkdir /tmp/bitcoin-core \ 
-  && cd /tmp/bitcoin-core \
+  && cd /tmp \
   && wget https://bitcoincore.org/bin/bitcoin-core-${BITCOIN_VERSION}/SHA256SUMS \
   && wget https://bitcoincore.org/bin/bitcoin-core-${BITCOIN_VERSION}/SHA256SUMS.asc \
   && wget https://raw.githubusercontent.com/bitcoin-core/guix.sigs/main/builder-keys/achow101.gpg \
@@ -18,12 +17,14 @@ RUN apk update \
   && if [ "3" -lt $(gpg --verify SHA256SUMS.asc 2>&1 >/dev/null | grep 'Good Signature' -c) ]; then exit 1; fi \
   && wget https://bitcoincore.org/bin/bitcoin-core-${BITCOIN_VERSION}/bitcoin-${BITCOIN_VERSION}-${BITCOIN_PLATFORM}.tar.gz \
   && cat SHA256SUMS | grep bitcoin-${BITCOIN_VERSION}-${BITCOIN_PLATFORM}.tar.gz | sha256sum -c \
-  && tar -xvzf bitcoin-*.tar.gz -C /usr/local/bin bitcoin-${BITCOIN_VERSION}/bin/bitcoind --strip-components 2
+  && tar --strip-component 2 -xzf bitcoin-*.tar.gz bitcoin-${BITCOIN_VERSION}/bin/bitcoind \
+  && rm SHA256SUMS* *.gpg *.tar.gz \
+  && apk del gpg gpg-agent wget
 
 
 FROM debian:stable-slim
 ARG GROUP_ID
-COPY --from=build /usr/local/bin/bitcoind /usr/local/bin/bitcoind
+COPY --from=build /tmp/bitcoind /usr/local/bin/bitcoind
 RUN addgroup --gid ${GROUP_ID} bitcoin \
   && adduser --disabled-password --gecos "" --ingroup bitcoin bitcoin \
   && mkdir /home/bitcoin/.bitcoin \
