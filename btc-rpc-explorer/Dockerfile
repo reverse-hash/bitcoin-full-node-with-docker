@@ -1,12 +1,13 @@
 FROM alpine:latest AS build
 ARG BTC_RPC_EXPLORER_VERSION
-RUN apk --update add curl git gpg gpg-agent \
+RUN apk add --update --no-cache git gpg gpg-agent wget \
   && cd /opt \
-  && curl https://keybase.io/danjanosik/pgp_keys.asc | gpg --import \
+  && wget -O - https://keybase.io/danjanosik/pgp_keys.asc | gpg --import \
   && git clone --branch v${BTC_RPC_EXPLORER_VERSION} https://github.com/janoside/btc-rpc-explorer.git \
   && cd btc-rpc-explorer \
 #  && git verify-tag v${BTC_RPC_EXPLORER_VERSION} \ FIXME: not working. Requested to btc-rpc-explorer developers
-  && chmod 755 -R .
+  && chmod 755 -R . \
+  && apk del git gpg gpg-agent wget
 
 
 FROM node:16-slim

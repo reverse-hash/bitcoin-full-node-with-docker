@@ -1,8 +1,7 @@
 FROM alpine:latest AS build
 ARG TOR_VERSION
 ARG TOR_PLATFORM
-RUN apk update \
-  && apk add --no-cache dirmngr gpg gpg-agent wget \
+RUN apk add --update --no-cache dirmngr gpg gpg-agent wget \
   && cd /tmp \
   && wget https://www.torproject.org/dist/torbrowser/${TOR_VERSION}/tor-expert-bundle-${TOR_VERSION}-${TOR_PLATFORM}.tar.gz.asc \
   && wget https://www.torproject.org/dist/torbrowser/${TOR_VERSION}/tor-expert-bundle-${TOR_VERSION}-${TOR_PLATFORM}.tar.gz \
@@ -10,8 +9,9 @@ RUN apk update \
   && gpg --verify tor-expert-bundle-${TOR_VERSION}-${TOR_PLATFORM}.tar.gz.asc \
   && if [ "1" -lt $(gpg --verify SHA256SUMS.asc 2>&1 >/dev/null | grep 'Good Signature' -c) ]; then exit 1; fi \
   && tar -xzf *.tar.gz -C . \
-  && rm -rf tor/debug tor/data tor/pluggable_transports \
-  && chmod -R 755 tor
+  && rm -rf tor/debug tor/data tor/pluggable_transports *.tar.gz \
+  && chmod -R 755 tor \
+  && apk del dirmngr gpg gpg-agent wget
 
 
 FROM debian:stable-slim

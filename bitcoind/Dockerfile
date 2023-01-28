@@ -1,8 +1,7 @@
 FROM alpine:latest AS build
 ARG BITCOIN_VERSION
 ARG BITCOIN_PLATFORM
-RUN apk update \
-  && apk add --no-cache gpg gpg-agent wget \
+RUN apk --update add --no-cache gpg gpg-agent wget \
   && cd /tmp \
   && wget https://bitcoincore.org/bin/bitcoin-core-${BITCOIN_VERSION}/SHA256SUMS \
   && wget https://bitcoincore.org/bin/bitcoin-core-${BITCOIN_VERSION}/SHA256SUMS.asc \
