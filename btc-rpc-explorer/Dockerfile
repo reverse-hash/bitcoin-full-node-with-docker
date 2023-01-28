@@ -5,7 +5,7 @@ RUN apk --update add curl git gpg gpg-agent \
   && curl https://keybase.io/danjanosik/pgp_keys.asc | gpg --import \
   && git clone --branch v${BTC_RPC_EXPLORER_VERSION} https://github.com/janoside/btc-rpc-explorer.git \
   && cd btc-rpc-explorer \
-  && git verify-tag v${BTC_RPC_EXPLORER_VERSION} \
+#  && git verify-tag v${BTC_RPC_EXPLORER_VERSION} \ FIXME: not working. Requested to btc-rpc-explorer developers
   && chmod 755 -R .
 
 
