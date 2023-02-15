@@ -46,7 +46,7 @@ As Bob, you will have a dockerized node that you can access on your LAN. On port
 
 Your node will participate in the Bitcoin network exchanging blocks with other nodes through Tor; and optionally, it will be accesible from anywhere also through Tor.
 
-<img style="border-radius:20px;padding:5px;background-color:#0d1117" src=".doc/readme/diagram.svg"/>
+
 
 The following services are deployed:
 
