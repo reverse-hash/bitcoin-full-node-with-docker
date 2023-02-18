@@ -54,7 +54,7 @@ The following services are deployed:
 
 | Container | Service | Base image | Size |
 | --- | --- | --- | --- |
-| tor | Tor expert bundle 12.0.2 | debian:stable-slim | 99.6 MB |
+| tor | Tor expert bundle 12.0.3 | debian:stable-slim | 99.6 MB |
 | bitcoind | Bitcoin core daemon 24.0.1 | debian:stable-slim | 96.2 MB |
 | electrs | Electrum rust service 0.9.11 | debian:stable-slim | 101 MB |
 | btcrpcexplorer | Bitcoin explorer 3.0.3 | node:16-slim | 251 MB |
