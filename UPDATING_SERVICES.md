@@ -10,12 +10,12 @@ However, if at some point there is a new version and the repository has not been
 
 In fact, you can do it the easy way, just delete all the containers and redeploy everything. However, our suggestion is to do it one at a time, verifying by yourself the corresponding Dockerfile and making sure that the service starts correctly. 
 
-The steps are exactly the same for all of the services. So you can follow the steps below with the service you want to update. For this example, the service is `tor`.
+The steps are exactly the same for all of the services. So you can follow the steps below with the service you want to update. For this example, the service is `tor` and it will be upgraded from version `12.0.3` to version `12.0.4`.
 
 Go to your `.env` file and edit the version parameter:
 
 ```conf
-# TOR_VERSION=12.0.3 -- just update the variable corresponding to the version 
+# TOR_VERSION=12.0.3 -- just replace or comment the variable corresponding to the version 
 TOR_VERSION=12.0.4
 ```
 
