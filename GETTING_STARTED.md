@@ -4,11 +4,11 @@
 * <a href="#setup-the-host-machine">Setup the host machine</a>
 * <a href="#setup-the-multi-container-applications">Setup the multi-container applications</a>
 * <a href="#running-services-for-the-first-time">Running services for the first time</a>
-  - <a href="#tor">Tor</a>
-  - <a href="#bitcoind">Bitcoind</a>
-  - <a href="#electrs">Electrs</a>
-  - <a href="#btc-rpc-explorer">BTC-RPC-Explorer</a>
-  - <a href="#nginx">Nginx</a>
+  - <a href="#tor">tor</a>
+  - <a href="#bitcoind">bitcoind</a>
+  - <a href="#electrs">electrs</a>
+  - <a href="#btc-rpc-explorer">btc-rpc-explorer</a>
+  - <a href="#nginx">nginx</a>
 * <a href="#post-installation">Post-installation</a>
 * <a href="#remote-access-to-your-node-via-tor-optional">Remote access to your node via tor (Optional)</a>
 
@@ -94,7 +94,7 @@ For the first installation, we recommend starting the services one at a time. Ta
 
 It is also important because bitcoind will take a long time to synchronize, and if in the meantime, the rest of the containers that depend on it are continuously failing because the service is not available, these are resources that will make the process take even longer.
 
-### Tor
+### tor
 
 In most cases, tor has all the configuration you need. The only configurable parameter that is not enabled by default are the hidden services and we will review it later. In case you want to customize anything, the tor configuration file is located in `/mnt/hdd/tor/torrc.default`.
 
@@ -119,7 +119,7 @@ $ docker logs -f 06a96296854a
 # [notice] Bootstrapped 100% (done): Done
 ```
 
-### Bitcoind
+### bitcoind
 
 The bitcoind configuration file is located in `/mnt/hdd/bitcoind/bitcoin.conf`. The default parameters are enough, except for one that depends on the memory of your local machine.
 
@@ -154,7 +154,7 @@ $ docker logs -f 7cc89e57effb
 # UpdateTip: new best=00000000000000000006a28f25197b1dcc3eeab5d7dbb57b77c45cc38a3fa255 height=769944 version=0x20000000 log2_work=93.925337 tx=792672968 date='2023-01-02T00:35:48Z' progress=0.999838 cache=5.4MiB(41166txo)
 ```
 
-### Electrs
+### electrs
 
 The electrs configuration file is located in `/mnt/hdd/electrs/electrs.conf`. The default parameters are enough, but in case you're interested, you can review it.
 
@@ -172,7 +172,7 @@ docker logs -f 92ebe51900c9
 # [2023-01-02T17:17:50.099Z INFO  electrs::chain] chain updated: tip=000000000000000000021f6a20a394c43b89b13034e54ff3150e147a261a3b53, height=769944
 ```
   
-### BTC-RPC-Explorer
+### btc-rpc-explorer
 
 The btc-rpc-explorer configuration file is located in `/mnt/hdd/btcrpcexplorer/btc-rpc-explorer.env`. The default parameters are also enough.
   
@@ -203,7 +203,7 @@ $ docker logs -f c8b93a8b9410
 # 2023-01-02T17:21:34.515Z btcexp:app RPC Connected: version=240001 subversion=/Satoshi:24.0.1/, parsedVersion(used for RPC versioning)=24.0.1, protocolversion=70016, chain=main, services=[NETWORK, WITNESS, NETWORK_LIMITED]
 ```
 
-### Nginx
+### nginx
   
 The nginx configuration file is located in `/mnt/hdd/nginx/nginx.conf`. The default parameters are enough, but it will be necessary to create your our own SSL certificate to connect `btc-rpc-explorer` and `electrs`.
 
@@ -255,9 +255,9 @@ $ docker-compose up -d
 
 ## Remote access to your node via tor (Optional)
   
-If we enable this feature, your node will expose services like btcrpcexplorer and electrs to the tor network, so you will be able to access them from anywhere if you have access to the tor network.
+Tor allows you to expose services through a feature called hidden services. If we enable this, your node will expose services like btcrpcexplorer and electrs to the tor network, so you will be able to access them from anywhere if you have access to the tor network.
 
-Our recommendation is to enable it only if you are going to use it. Another option is to enable it only for a period of time when you need it and then disable it again. It's just a matter of configuring some settings and restarting the tor service.
+Our recommendation is to enable it only if you are going to use it very often or to enable it only for a period of time when you need it and then disable it again. It's just a matter of configuring some settings and restarting the tor service. Take this into consideration because the node will be accessible to anyone who discovers the service, and although the node does not store any private key, it is still a service exposed to attacks.
 
 In case you want to do so, the tor configuration file is located in `/mnt/hdd/tor/torrc.default`. So open it with a text editor and uncomment the lines indicated in the file.
 
@@ -277,7 +277,7 @@ Once the file has been edited, just restart tor.
 $ docker-compose restart tor
 ```
 
-Once restarted, in the tor data volume you will find a folder for the hidden service. If you look inside, you will find a file with the hostname assigned to the service.
+Next, in the tor data volume you will find a folder for each hidden service. If you look inside, you will find a file with the hostname assigned.
 
 For this example, the hostname assigned to the `btc-rpc-explorer` service is `vpu4f4pyyp4zruhllacgymj3qg67mgkwu5o37e3g2ad2un3rufew5xqd.onion` and is accessible from anywhere through the tor network.
 
