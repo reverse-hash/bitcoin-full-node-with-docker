@@ -9,6 +9,7 @@
   - <a href="#electrs">electrs</a>
   - <a href="#btc-rpc-explorer">btc-rpc-explorer</a>
   - <a href="#nginx">nginx</a>
+* <a href="#using-your-node">Using your node</a>
 * <a href="#post-installation">Post-installation</a>
 * <a href="#remote-access-to-your-node-via-tor-optional">Remote access to your node via tor (Optional)</a>
 
@@ -230,12 +231,15 @@ $ docker logs -f a811e7fd2455
 # /docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
 # /docker-entrypoint.sh: Configuration complete; ready for start up
 ```
+## Using your node
 
-If you have reached this point, you should be able to access some of the services exposed by the node through nginx. You can try to access to btc-rpc-explorer through the following URL: https://your_node_ip:3003.
+If you have reached this point, you should be able to access btc-rpc-explorer and electrs through nginx.
+
+- You can try to access to btc-rpc-explorer through the following URL: ```https://your_node_ip:3003```.
+- You can try to connect Sparrow or Electrum Wallet through the following URL: ```https://your_node_ip:50002``` 
 
 **Important**: The SSL certificate we generate is self-signed, this means that it'ss not signed by a recognized authority. It is normal if your browser indicates that it is not secure with a warning. This does not mean that the connection is not encrypted. It is possible to generate a certificate with a recognized authority by paying or through certain registration processes. However, this is outside the scope of this document.
 
-  
 ## Post-installation
 
 Once the node has been synchronized, we can change the bitcoind dbcache to the minimum. It is no longer necessary to have so much memory for this purpose.
@@ -246,7 +250,7 @@ Edit the bitcoind configuration file and change this parameter.
 dbcache=360
 ```
   
-And we will take the opportunity to do a restart of the whole infrastructure to verify that we can shut down and restart everything without any problem.
+Take this as an opportunity to restart the whole infrastructure and verify that we can shutdown and start everything without any problem.
 
 ```shell
 $ docker-compose down
