@@ -176,7 +176,7 @@ docker logs -f 92ebe51900c9
 
 The btc-rpc-explorer configuration file is located in `/mnt/hdd/btcrpcexplorer/btc-rpc-explorer.env`. The default parameters are also enough.
   
-Run the following command `docker-compose up -d btcrpcexplorer` to start the service and check the logs to be sure that the services is running properly.
+Run the following command `docker-compose up -d btcrpcexplorer` to start the service and check the logs to be sure that the service is running properly.
 
 For this example, we can see that the service has beed started and it's connected to bitcoind (`RPC Connected: ... subversion=/Satoshi:24.0.1`)
   
