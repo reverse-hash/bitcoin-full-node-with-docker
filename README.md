@@ -65,8 +65,8 @@ The following services are deployed:
 <a href="#documentation"></a>
 
 - <a href="./GETTING_STARTED.md">Getting started</a>
-- Updating services
-- Extra
+- <a href="./UPDATING_SERVICES.md">Updating services</a>
+- Extra (WIP)
 
 ## Special thanks and attributions
 
