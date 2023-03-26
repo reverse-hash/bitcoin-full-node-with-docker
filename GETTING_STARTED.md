@@ -10,7 +10,7 @@
   - <a href="#btc-rpc-explorer">BTC-RPC-Explorer</a>
   - <a href="#nginx">Nginx</a>
 * <a href="#post-installation">Post-installation</a>
-* <a href="#remote-access-to-your-node-via-tor-optional">Remote access to your node via tor (Optional)/a>
+* <a href="#remote-access-to-your-node-via-tor-optional">Remote access to your node via tor (Optional)</a>
 
 ## Prerequisites
 
@@ -133,7 +133,7 @@ This is the longest process and until it is finished we cannot continue. Our nod
 
 Run the following command `docker-compose up -d bitcoind` to start the service and check the logs to be sure that the services is running properly.
 
-For this example, after a certain time, bitcoind was already synchronizing the 769944 block height (`height=769944`)  and almost all the blockchain was already synchronized (`progress=0.999838`). At the time of this writing, this was the last block mined, so the node was synchronized and we can move the next step.
+For this example, after a certain time, bitcoind was already synchronizing the 769944 block height (`height=769944`)  and almost all the blockchain was already synchronized (`progress=0.999838`). At the time of writing this document, this was the last block mined, so the node was synchronized and we can move the next step.
 
 ```shell
 $ docker-compose up bitcoind -d
@@ -230,6 +230,11 @@ $ docker logs -f a811e7fd2455
 # /docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
 # /docker-entrypoint.sh: Configuration complete; ready for start up
 ```
+
+If you have reached this point, you should be able to access some of the services exposed by the node through nginx. You can try to access to `BTC-RPC-Explorer` through the following URL: https://your_node_ip:3003.
+
+**Important**: The SSL certificate we generate is self-signed, this means that it'ss not signed by a recognized authority. It is normal if your browser indicates that it is not secure with a warning. This does not mean that the connection is not encrypted. It is possible to generate a certificate with a recognized authority by paying or through certain registration processes. However, this is outside the scope of this document.
+
   
 ## Post-installation
 
