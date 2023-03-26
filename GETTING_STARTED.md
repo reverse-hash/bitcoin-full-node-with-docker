@@ -219,7 +219,7 @@ Two files `certificate.crt` and `certificate.key` will be generated. It is impor
   
 Finally, run the following command `docker-compose up -d nginx` to start the service and check the logs to be sure that the services is running properly.
 
-For this example, we can see that the service has beed started and it's connected to bitcoind (`RPC Connected: ... subversion=/Satoshi:24.0.1`)
+For this example, we can see that the service has beed started and it's connected to bitcoind.
   
 ```shell
 [$ docker ps | grep nginx
@@ -231,7 +231,7 @@ $ docker logs -f a811e7fd2455
 # /docker-entrypoint.sh: Configuration complete; ready for start up
 ```
 
-If you have reached this point, you should be able to access some of the services exposed by the node through nginx. You can try to access to `BTC-RPC-Explorer` through the following URL: https://your_node_ip:3003.
+If you have reached this point, you should be able to access some of the services exposed by the node through nginx. You can try to access to btc-rpc-explorer through the following URL: https://your_node_ip:3003.
 
 **Important**: The SSL certificate we generate is self-signed, this means that it'ss not signed by a recognized authority. It is normal if your browser indicates that it is not secure with a warning. This does not mean that the connection is not encrypted. It is possible to generate a certificate with a recognized authority by paying or through certain registration processes. However, this is outside the scope of this document.
 
