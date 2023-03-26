@@ -129,7 +129,7 @@ The more cache bitcoind has, the faster it will be downloading and synchronizing
 dbcache=2048
 ```
 
-This is the longest process and until it is finished we cannot continue. Our node will start synchronizing the entire blockchain with the rest of peers. This process can take days or even weeks. It's very difficult to give an estimate, because it depends on the capacity of your hardware, the state of the network, your connection speed... So be patient.
+This is the longest process and until it is finished we cannot continue. Your node will start synchronizing the entire blockchain with the rest of peers. This process can take days or even weeks. It's very difficult to give an estimation, because it depends on the capacity of your hardware, the state of the network, your connection speed... So be patient.
 
 Run the following command `docker-compose up -d bitcoind` to start the service and check the logs to be sure that the services is running properly.
 
