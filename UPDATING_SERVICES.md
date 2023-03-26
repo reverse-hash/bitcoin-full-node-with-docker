@@ -6,7 +6,7 @@ In a recurrent way we update the versions in the repository, so that we also run
 
 ## How to update a service
 
-Our suggestion is to do it one at a time, verifying by yourself the corresponding `Dockerfile` and making sure that the service updated correctly. 
+Our suggestion is to do it one at a time, verifying by yourself the corresponding `Dockerfile` and making sure that the service is updated correctly. 
 
 The steps are exactly the same for all of the services. So you can follow the steps below just replacing the service name. For this example, the service is `tor` and it will be updated from version `12.0.3` to version `12.0.4`.
 
