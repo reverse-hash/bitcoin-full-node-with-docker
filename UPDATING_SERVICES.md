@@ -8,7 +8,7 @@ However, if at some point there is a new version and the repository has not been
 
 ## How to update a service
 
-In fact, you can do it the easy way, just delete all the containers and redeploy everything. However, our suggestion is to do it one at a time, double-checking the corresponding Dockerfile and making sure that the service starts correctly. Then you move on to the next one, and so on.
+In fact, you can do it the easy way, just delete all the containers and redeploy everything. However, our suggestion is to do it one at a time, verifying by yourself the corresponding Dockerfile and making sure that the service starts correctly. Then you move on to the next one, and so on.
 
 The steps are exactly the same for all of the services. So you can follow the steps below with the service you want to update. For this example, the service is `tor`.
 
