@@ -74,7 +74,7 @@ The container environment must be defined in a file `.env` in the repository roo
 $ copy .env.example .env
 ```
 
-It's crucial that the following parameters are properly configured or the environment will not work.
+It's crucial that the following parameters are properly configured or the environment will not work. The rest of the parameters can be left as they are.
 
 ```conf
 # The GID we have previously noted.
