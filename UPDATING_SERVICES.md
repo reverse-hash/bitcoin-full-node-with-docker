@@ -17,22 +17,22 @@ Go to your `.env` file and edit the version parameter:
 TOR_VERSION=12.0.4
 ```
 
-From the root of the repository, stop the service and re-run it.
+Next, stop the service and re-run it.
 
 ```shell
 $ docker-compose stop tor
 $ docker-compose up -d tor
 ```
 
-Now you can check the logs for a moment to be sure that the service starts correctly.
+Check the logs o be sure that the service starts correctly.
 
 ```shell
 $ docker ps | grep tor
-06a96296854a   tor:12.0.4               "/bin/sh -c 'tor -f …"   5 minutes ago   Up 3 minute
+06a96296854a   tor:12.0.4
 $ docker logs 06a96296854a -f
 ```
 
-If after a while you see that the service is working properly, and your node is working as it should, you can delete the old image.
+If after a while you see that the service is working properly, you can delete the old image.
 
 ```shell
 $ docker images
