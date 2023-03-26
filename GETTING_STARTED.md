@@ -158,9 +158,9 @@ $ docker logs -f 7cc89e57effb
 
 The electrs configuration file is located in `/mnt/hdd/electrs/electrs.conf`. The default parameters are enough, but in case you're interested, you can review it.
 
-Run the following command `docker-compose up -d electrs` to start the service and check the logs to be sure that the services is running properly.
+Run the following command `docker-compose up -d electrs` to start the service and check the logs to be sure that the service is running properly.
   
-For this example, we can see that electrs has already indexed the entire blockchain (`height=769944`, same as `bitcoind`).
+For this example, we can see that electrs has already indexed the entire blockchain (`height=769944`, same block height as bitcoind).
   
 ```shell
 $ docker ps | grep electrs
