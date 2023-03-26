@@ -217,7 +217,7 @@ $ openssl req -newkey rsa:4096 -x509 -sha256 -days 3650 -nodes -out certificate.
 
 Two files `certificate.crt` and `certificate.key` will be generated. It is important to use this name as they are specified in the nginx configuration file.
   
-Finally, run the following command `docker-compose up -d nginx` to start the service and check the logs to be sure that the services is running properly.
+Finally, run the following command `docker-compose up -d nginx` to start the service and check the logs to be sure that the service is running properly.
 
 For this example, we can see that the service has beed started and it's connected to bitcoind.
   
