@@ -238,7 +238,7 @@ If you have reached this point, you should be able to access btc-rpc-explorer an
 - You can try to access to btc-rpc-explorer through the following URL: ```https://your_node_ip:3003```.
 - You can try to connect Sparrow or Electrum Wallet through the following URL: ```https://your_node_ip:50002``` 
 
-**Important**: The SSL certificate we generate is self-signed, this means that it'ss not signed by a recognized authority. It is normal if your browser indicates that it is not secure with a warning. This does not mean that the connection is not encrypted. It is possible to generate a certificate with a recognized authority by paying or through certain registration processes. However, this is outside the scope of this document.
+**Important**: The SSL certificate we generate is self-signed, this means that it's not signed by a recognized authority. It is normal if your browser indicates that it is not secure with a warning. This does not mean that the connection is not encrypted. It is possible to generate a certificate with a recognized authority by paying or through certain registration processes. However, this is outside the scope of this document.
 
 ## Post-installation
 
