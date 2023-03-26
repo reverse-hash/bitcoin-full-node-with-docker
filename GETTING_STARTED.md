@@ -205,7 +205,7 @@ $ docker logs -f c8b93a8b9410
 
 ### nginx
   
-The nginx configuration file is located in `/mnt/hdd/nginx/nginx.conf`. The default parameters are enough, but it will be necessary to create your our own SSL certificate to connect `btc-rpc-explorer` and `electrs`.
+The nginx configuration file is located in `/mnt/hdd/nginx/nginx.conf`. The default parameters are enough, but it will be necessary to create your our own SSL certificate to connect btc-rpc-explorer and electrs.
 
 So, move to the nginx data volume folder and generate a self-signed certificate running the following command:
 
