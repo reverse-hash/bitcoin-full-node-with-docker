@@ -13,7 +13,7 @@ The steps are exactly the same for all of the services. So you can follow the st
 Go to your `.env` file and edit the version parameter:
 
 ```conf
-# TOR_VERSION=12.0.3 -- just replace the corresponding to the version 
+# TOR_VERSION=12.0.3 -- before
 TOR_VERSION=12.0.4
 ```
 
