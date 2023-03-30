@@ -44,7 +44,7 @@ Execute the following command to obtain the GID of the group. Make a note of it 
 
 ```shell
 $ getent group btcnode
-btcnode:x:1099:satoshi
+# btcnode:x:1099:satoshi
 ```
 
 Then add your host user to this group. For this example, the user is `satoshi`.
@@ -106,7 +106,7 @@ For this example, we check the logs and everything looks good.
 ```shell
 $ docker-compose up tor -d 
 $ docker ps | grep tor
-06a96296854a   tor:12.0.1
+# 06a96296854a   tor:12.0.1
 $ docker logs -f 06a96296854a
 # [notice] Tor 0.4.7.12 (git-f43a74975ed27d78) running on Linux with Libevent 2.1.12-stable, OpenSSL 1.1.1s, Zlib 1.2.11, Liblzma N/A, Libzstd N/A and Glibc 2.31 as libc.
 # [notice] Tor can't help you if you use it wrong! Learn how to be safe at https://support.torproject.org/faq/staying-anonymous/
@@ -139,7 +139,7 @@ For this example, after a certain time, bitcoind was already synchronizing the 7
 ```shell
 $ docker-compose up bitcoind -d
 $ docker ps | grep bitcoind
-7cc89e57effb   bitcoind:24.0.1
+# 7cc89e57effb   bitcoind:24.0.1
 $ docker logs -f 7cc89e57effb
 # You should see it synchronizing blocks as follows:
 #
@@ -165,8 +165,8 @@ For this example, we can see that electrs has already indexed the entire blockch
   
 ```shell
 $ docker ps | grep electrs
-92ebe51900c9   electrs:0.9.12
-docker logs -f 92ebe51900c9
+# 92ebe51900c9   electrs:0.9.12
+$ docker logs -f 92ebe51900c9
 # Starting electrs 0.9.12 on x86_64 linux with Config { network: Bitcoin, db_path: "/home/electrs/.electrs/db/bitcoin", daemon_dir: "/home/electrs/.bitcoin", daemon_auth: UserPass("electrs", "<sensitive>"), daemon_rpc_addr: 172.18.0.3:8332, daemon_p2p_addr: 172.18.0.3:8333, electrum_rpc_addr: 0.0.0.0:50001, monitoring_addr: 127.0.0.1:4224, wait_duration: 10s, jsonrpc_timeout: 15s, index_batch_size: 10, index_lookup_limit: None, reindex_last_blocks: 0, auto_reindex: true, ignore_mempool: false, sync_once: false, disable_electrum_rpc: false, server_banner: "Welcome to electrs 0.9.12 (Electrum Rust Server)!", signet_magic: 3652501241, args: [] }
 # [2023-01-02T15:45:56.500Z INFO  electrs::server] serving Electrum RPC on 0.0.0.0:50001
 # [2023-01-02T15:45:56.705Z INFO  electrs::db] "/home/electrs/.electrs/db/bitcoin": 163 SST files, 39.804026748 GB, 4.979395287 Grows
@@ -184,7 +184,7 @@ For this example, we can see that the service has beed started and it's connecte
 ```shell
 $ docker-compose up -d btcrpcexplorer
 $ docker ps | grep btcrpcexplorer
-c8b93a8b9410   btc-rpc-explorer:3.3.0
+# c8b93a8b9410   btc-rpc-explorer:3.3.0
 $ docker logs -f c8b93a8b9410
 # > btc-rpc-explorer@3.3.0 start
 # > node ./bin/www
@@ -223,8 +223,8 @@ Finally, run the following command `docker-compose up -d nginx` to start the ser
 For this example, we can see that the service has beed started and it's connected to bitcoind.
   
 ```shell
-[$ docker ps | grep nginx
-a811e7fd2455   nginx:alpine-slim 0.0.0.0:3003->3003/tcp, :::3003->3003/tcp, 80/tcp, 0.0.0.0:50002->50002/tcp, :::50002->50002/tcp
+$ docker ps | grep nginx
+# a811e7fd2455   nginx:alpine-slim 0.0.0.0:3003->3003/tcp, :::3003->3003/tcp, 80/tcp, 0.0.0.0:50002->50002/tcp, :::50002->50002/tcp
 $ docker logs -f a811e7fd2455
 #...
 # /docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
@@ -277,7 +277,7 @@ HiddenServicePort 50002 nginx:50002
 
 Once the file has been edited, just restart tor.
 
-```
+```shell
 $ docker-compose restart tor
 ```
 
@@ -285,7 +285,7 @@ Next, in the tor data volume you will find a folder for each hidden service. If 
 
 For this example, the hostname assigned to the `btc-rpc-explorer` service is `vpu4f4pyyp4zruhllacgymj3qg67mgkwu5o37e3g2ad2un3rufew5xqd.onion` and is accessible from anywhere through the tor network.
 
-```
+```shell
 $ cd /mnt/hdd/tor
 $ ls
 #  btc-rpc-explorer  electrs  torrc.default
