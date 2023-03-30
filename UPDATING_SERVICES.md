@@ -28,7 +28,7 @@ Check the logs o be sure that the service starts correctly.
 
 ```shell
 $ docker ps | grep tor
-06a96296854a   tor:12.0.4
+# 06a96296854a   tor:12.0.4
 $ docker logs 06a96296854a -f
 ```
 
@@ -36,10 +36,9 @@ If after a while you see that the service is working properly, you can delete th
 
 ```shell
 $ docker images
-REPOSITORY         TAG           IMAGE ID       CREATED         SIZE
-tor                12.0.4        236c6c6b89da   7 minutes ago   90.2MB
-tor                12.0.3        7ad38075c199   4 weeks ago     90.2MB
-...
+# REPOSITORY         TAG           IMAGE ID       CREATED         SIZE
+# tor                12.0.4        236c6c6b89da   7 minutes ago   90.2MB
+# tor                12.0.3        7ad38075c199   4 weeks ago     90.2MB
 $ docker rmi 7ad38075c199
 ```
 
