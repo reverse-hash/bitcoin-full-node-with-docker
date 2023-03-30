@@ -35,7 +35,7 @@ $ docker logs 06a96296854a -f
 If after a while you see that the service is working properly, you can delete the old image.
 
 ```shell
-$ docker images
+$ docker images | grep tor
 # REPOSITORY         TAG           IMAGE ID       CREATED         SIZE
 # tor                12.0.4        236c6c6b89da   7 minutes ago   90.2MB
 # tor                12.0.3        7ad38075c199   4 weeks ago     90.2MB
