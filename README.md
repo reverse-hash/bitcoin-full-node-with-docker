@@ -56,7 +56,7 @@ The following services are deployed:
 | --- | --- | --- | --- |
 | tor | Tor expert bundle 12.0.4 | debian:stable-slim | 99.6 MB |
 | bitcoind | Bitcoin core daemon 24.0.1 | debian:stable-slim | 96.2 MB |
-| electrs | Electrum rust service 0.9.12 | debian:stable-slim | 101 MB |
+| electrs | Electrum rust service 0.9.13 | debian:stable-slim | 101 MB |
 | btcrpcexplorer | Bitcoin explorer 3.0.3 | node:16-slim | 251 MB |
 | nginx | NGINX stable | nginx:alpine-slim | 11.5 MB |
 
