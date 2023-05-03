@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  tor:
+    image: tor:0.4.7.13
+    build:
+      context: ./tor-source
+      args:
+        - TOR_VERSION=0.4.7.13
+        - GROUP_ID=1000
+    restart: on-failure
+    volumes:
+      - ./volumes/tor:/var/lib/tor
