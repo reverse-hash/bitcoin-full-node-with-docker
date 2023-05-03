@@ -2,7 +2,6 @@
 FROM python:3.10-alpine
 ARG TOR_VERSION
 ARG TORSOCKS_VERSION
-ENV HOME /var/lib/tor
 ENV POETRY_VIRTUALENVS_CREATE=false
 
 RUN apk add --no-cache git bind-tools cargo libevent-dev openssl-dev gnupg gcc make automake ca-certificates autoconf musl-dev coreutils libffi-dev zlib-dev && \
@@ -37,7 +36,12 @@ RUN apk add --no-cache git gcc make automake autoconf musl-dev libtool && \
 
 ARG GROUP_ID
 
+ENV PATH=$PATH:/var/lib/tor
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/var/lib/tor
+
 RUN addgroup --gid ${GROUP_ID} tor \
   && adduser --disabled-password --gecos "" --ingroup tor tor
+
+USER tor
 
 CMD tor -f ~/torrc.default
