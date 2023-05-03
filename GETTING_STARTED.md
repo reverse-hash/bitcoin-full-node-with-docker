@@ -77,6 +77,15 @@ BTC_RPC_EXPLORER_DATA=/mnt/hdd/btcrpcexplorer
 NGINX_DATA=/mnt/hdd/nginx
 ```
 
+It is recommended to change the default passwords that are configured. There are two users configured; btcrpcexplorer and electrs. To generate the required information (WARNING: verify what you're running! Never trust, always verify.);
+
+```
+cd /tmp && wget https://raw.githubusercontent.com/bitcoin/bitcoin/master/share/rpcauth/rpcauth.py && python3 rpcauth.py btcrpcexplorer && rm /tmp/rpcauth.py
+cd /tmp && wget https://raw.githubusercontent.com/bitcoin/bitcoin/master/share/rpcauth/rpcauth.py && python3 rpcauth.py electrs && rm /tmp/rpcauth.py
+```
+
+You can save the output, to be used in later steps.
+
 ## Configure bitcoind
 
 The bitcoind configuration file is located in `/mnt/hdd/bitcoind/bitcoin.conf`. The default parameters are enough, except for one that depends on the memory of your local machine.
