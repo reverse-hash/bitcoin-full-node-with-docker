@@ -21,7 +21,6 @@ services:
       context: ./bitcoind
       args:
         - BITCOIN_VERSION=$BITCOIN_VERSION
-        - BITCOIN_PLATFORM=$BITCOIN_PLATFORM
         - GROUP_ID=$SHARED_GID
     volumes:
       - $BITCOIN_DATA:/home/bitcoin/.bitcoin
