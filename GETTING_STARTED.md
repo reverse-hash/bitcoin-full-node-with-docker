@@ -93,7 +93,19 @@ NGINX_DATA=/mnt/hdd/nginx
   
 For the first installation, we recommend starting the services one at a time. Take your time to verify by yourself the `Dockerfiles` and validate that the services are being deployed correctly.
 
+
 It is also important because bitcoind will take a long time to synchronize, and if in the meantime, the rest of the containers that depend on it are continuously failing because the service is not available, these are resources that will make the process take even longer.
+
+It is recommended to change the default passwords that are configured. There are two users configured; btcrpcexplorer and electrs. To generate the required information (WARNING: verify what you're running! Never trust, always verify.);
+
+```
+cd /tmp && wget https://raw.githubusercontent.com/bitcoin/bitcoin/master/share/rpcauth/rpcauth.py && python3 rpcauth.py btcrpcexplorer && rm /tmp/rpcauth.py
+cd /tmp && wget https://raw.githubusercontent.com/bitcoin/bitcoin/master/share/rpcauth/rpcauth.py && python3 rpcauth.py electrs && rm /tmp/rpcauth.py
+```
+
+You can save the output, to be used in later steps.
+
+## Configure bitcoind
 
 ### tor
 
