@@ -1,10 +1,8 @@
-FROM alpine:latest AS build
+FROM debian:stable-slim AS build
 ARG BITCOIN_VERSION
-ARG BITCOIN_PLATFORM
-RUN apk --update add --no-cache gpg gpg-agent wget \
+RUN apt-get update \
+  && apt-get install build-essential libtool autotools-dev automake pkg-config bsdmainutils libevent-dev libboost-dev curl python3 byacc git wget -y \
   && cd /tmp \
-  && wget https://bitcoincore.org/bin/bitcoin-core-${BITCOIN_VERSION}/SHA256SUMS \
-  && wget https://bitcoincore.org/bin/bitcoin-core-${BITCOIN_VERSION}/SHA256SUMS.asc \
   && wget https://raw.githubusercontent.com/bitcoin-core/guix.sigs/main/builder-keys/achow101.gpg \
   && wget https://raw.githubusercontent.com/bitcoin-core/guix.sigs/main/builder-keys/fanquake.gpg \
   && wget https://raw.githubusercontent.com/bitcoin-core/guix.sigs/main/builder-keys/guggero.gpg \
@@ -13,22 +11,39 @@ RUN apk --update add --no-cache gpg gpg-agent wget \
   && wget https://raw.githubusercontent.com/bitcoin-core/guix.sigs/main/builder-keys/vertiond.gpg \
   && wget https://raw.githubusercontent.com/bitcoin-core/guix.sigs/main/builder-keys/willyko.gpg \
   && gpg --import *.gpg \
-  && if [ "3" -lt $(gpg --verify SHA256SUMS.asc 2>&1 >/dev/null | grep 'Good Signature' -c) ]; then exit 1; fi \
-  && wget https://bitcoincore.org/bin/bitcoin-core-${BITCOIN_VERSION}/bitcoin-${BITCOIN_VERSION}-${BITCOIN_PLATFORM}.tar.gz \
-  && cat SHA256SUMS | grep bitcoin-${BITCOIN_VERSION}-${BITCOIN_PLATFORM}.tar.gz | sha256sum -c \
-  && tar --strip-component 2 -xzf bitcoin-*.tar.gz bitcoin-${BITCOIN_VERSION}/bin/bitcoind \
-  && rm SHA256SUMS* *.gpg *.tar.gz \
-  && apk del gpg gpg-agent wget
+  && git clone -b v${BITCOIN_VERSION} https://github.com/bitcoin/bitcoin.git \
+  && cd bitcoin \
+  && git verify-tag v${BITCOIN_VERSION} \
+  && cd depends \
+  && make HOST=$(gcc -dumpmachine) NO_QT=1 NO_ZMQ=1 NO_WALLET=1 NO_BDB=1 NO_SQLITE=1 \
+  && cd .. \
+  && ./autogen.sh \
+  && ./configure \
+    --enable-glibc-back-compat \
+    --prefix=$PWD/depends/$(gcc -dumpmachine) LDFLAGS="-static-libstdc++" \
+    --disable-bench \
+    --disable-man \
+    --disable-tests \
+    --disable-wallet \
+    --with-qrencode=no \
+    --enable-fuzz-binary=no \
+    --without-gui \
+  && make \
+  && apt-get remove build-essential libtool autotools-dev automake pkg-config bsdmainutils libevent-dev libboost-dev curl python3 byacc git wget -y
 
 
 FROM debian:stable-slim
 ARG GROUP_ID
-COPY --from=build /tmp/bitcoind /usr/local/bin/bitcoind
+COPY --from=build /tmp/bitcoin/src/bitcoind /usr/local/bin/bitcoind
 RUN addgroup --gid ${GROUP_ID} bitcoin \
   && adduser --disabled-password --gecos "" --ingroup bitcoin bitcoin \
   && mkdir /home/bitcoin/.bitcoin \
-  && chown bitcoin:bitcoin /home/bitcoin/.bitcoin
+  && chown bitcoin:bitcoin /home/bitcoin/.bitcoin \
+  # FIXME: glibc version is different
+  && apt-get update \
+  && apt-get install libc6 -y
 
 USER bitcoin
 
 CMD bitcoind
+#CMD tail -f /dev/null
