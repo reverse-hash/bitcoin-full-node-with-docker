@@ -6,7 +6,6 @@ services:
       context: ./tor
       args:
         - TOR_VERSION=$TOR_VERSION
-        - TOR_PLATFORM=$TOR_PLATFORM
         - GROUP_ID=$SHARED_GID
     volumes:
       - $TOR_DATA:/home/tor

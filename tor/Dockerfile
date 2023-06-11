@@ -1,22 +1,27 @@
-FROM alpine:latest AS build
+FROM debian:stable-slim AS build
 ARG TOR_VERSION
-ARG TOR_PLATFORM
-RUN apk add --update --no-cache dirmngr gpg gpg-agent wget \
+RUN apt-get update \
+  && apt-get install build-essential automake libevent-dev libssl-dev zlib1g-dev git -y \
   && cd /tmp \
-  && wget https://www.torproject.org/dist/torbrowser/${TOR_VERSION}/tor-expert-bundle-${TOR_VERSION}-${TOR_PLATFORM}.tar.gz.asc \
-  && wget https://www.torproject.org/dist/torbrowser/${TOR_VERSION}/tor-expert-bundle-${TOR_VERSION}-${TOR_PLATFORM}.tar.gz \
-  && gpg --auto-key-locate nodefault,wkd --locate-keys torbrowser@torproject.org \
-  && gpg --verify tor-expert-bundle-${TOR_VERSION}-${TOR_PLATFORM}.tar.gz.asc \
-  && if [ "1" -lt $(gpg --verify SHA256SUMS.asc 2>&1 >/dev/null | grep 'Good Signature' -c) ]; then exit 1; fi \
-  && tar -xzf *.tar.gz -C . \
-  && rm -rf tor/debug tor/data tor/pluggable_transports *.tar.gz \
-  && chmod -R 755 tor \
-  && apk del dirmngr gpg gpg-agent wget
+  && git clone -b tor-${TOR_VERSION} https://git.torproject.org/tor.git \
+  && cd tor \
+  && ./autogen.sh \
+  && ln -s $(dpkg -L libevent-dev | grep libevent.a) /tmp/libevent.a \
+  && ./configure \
+    --disable-asciidoc \
+    --sysconfdir=/etc \
+    --disable-unittests \
+    -enable-static-tor \
+    --with-libevent-dir=$(dirname $(dpkg -L libevent-dev | grep libevent.a)) \
+    --with-openssl-dir=$(dirname $(dpkg -L libssl-dev | grep libssl.a)) \
+    --with-zlib-dir=$(dirname $(dpkg -L zlib1g-dev | grep libz.a)) \
+  && make \
+  && apt-get remove build-essential automake libevent-dev libssl-dev zlib1g-dev git -y
 
 
 FROM debian:stable-slim
 ARG GROUP_ID
-COPY --from=build /tmp/tor /opt/tor
+COPY --from=build /tmp/tor/src/app/tor /opt/tor/tor
 ENV PATH=$PATH:/opt/tor
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/tor
 RUN addgroup --gid ${GROUP_ID} tor \
