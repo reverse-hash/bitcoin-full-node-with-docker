@@ -38,10 +38,7 @@ COPY --from=build /tmp/bitcoin/src/bitcoind /usr/local/bin/bitcoind
 RUN addgroup --gid ${GROUP_ID} bitcoin \
   && adduser --disabled-password --gecos "" --ingroup bitcoin bitcoin \
   && mkdir /home/bitcoin/.bitcoin \
-  && chown bitcoin:bitcoin /home/bitcoin/.bitcoin \
-  # TODO: Remove when possible. We have to update glibc because when compiling we are using a diff glibc version (2.32 vs 2.31)
-  && apt-get update \
-  && apt-get install libc6 -y
+  && chown bitcoin:bitcoin /home/bitcoin/.bitcoin
 
 USER bitcoin
 
