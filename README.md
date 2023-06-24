@@ -55,9 +55,9 @@ The following services are deployed:
 | Container | Service | Base image | Size |
 | --- | --- | --- | --- |
 | tor | Tor 0.4.7.13 | debian:stable-slim | 99.6 MB |
-| bitcoind | Bitcoin core daemon 25.0 | debian:stable-slim | 96.2 MB |
-| electrs | Electrum rust service 0.9.13 | debian:stable-slim | 101 MB |
-| btcrpcexplorer | Bitcoin explorer 3.0.3 | node:16-slim | 251 MB |
+| bitcoind | Bitcoin core daemon 25.0 | debian:stable-slim | 128 MB |
+| electrs | Electrum rust service 0.10.0-rc.1 | debian:stable-slim | 119 MB |
+| btcrpcexplorer | Bitcoin explorer 3.4.0 | node:16-slim | 333 MB |
 | nginx | NGINX stable | nginx:alpine-slim | 11.5 MB |
 
 
@@ -66,7 +66,6 @@ The following services are deployed:
 
 - <a href="./GETTING_STARTED.md">Getting started</a>
 - <a href="./UPDATING_SERVICES.md">Updating services</a>
-- Extra (WIP)
 
 ## Special thanks and attributions
 
