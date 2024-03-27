@@ -4,34 +4,33 @@
   <img alt="Logo" src="./.doc/readme/logo.png" width="220"/>
 
   <p>
-    <strong>A simple, lightweight, secure, private and verifiable way to deploy your own node with Docker!</strong>
+    <strong>A simple way to deploy your own node with Docker!</strong>
   </p>
 
   <p>
   <a href="https://github.com/reverse-hash/bitcoin-full-node-with-docker/actions/workflows/build.yml">
 <img alt="" src="https://github.com/reverse-hash/bitcoin-full-node-with-docker/actions/workflows/build.yml/badge.svg"></a>
-    <a href="./LICENSE.txt"><img alt="MIT" src="https://img.shields.io/badge/license-MIT-blue.svg"/></a>  
-
+    <a href="./LICENSE.txt"><img alt="MIT" src="https://img.shields.io/badge/license-MIT-blue.svg"/></a>
 
   </p>
 
-   <strong><a href="#documentation">Documentation</a> </strong>
-   | <strong><a href="https://github.com/reverse-hash/bitcoin-full-node-with-docker/discussions">Support</a></strong>
-   | <strong><a href="./FAQ.md">FAQ</a></strong>
+<strong><a href="#documentation">Documentation</a> </strong>
+| <strong><a href="https://github.com/reverse-hash/bitcoin-full-node-with-docker/discussions">Support</a></strong>
+| <strong><a href="./FAQ.md">FAQ</a></strong>
+
 </div>
 
 ## About the project
 
-There are many alternatives to set up your own node, either by installing everything from scratch, with preconfigured images or even buying one ready to use. Some options seem too crafty and difficult to maintain, and others too customized that add extra complexity that makes auditing the node very difficult.
+There are many alternatives to set up your own node. Some options seem too crafty and difficult to maintain, and others too customized that add extra complexity that makes auditing the node very difficult.
 
 Since no option was working for me, I decided to create this project and focus on the following points:
 
 - Simplicity: in the sense that anyone can understand the node arquitecture in a matter of minutes.
 - Lightweight: it can run on a low-resource computer.
-- Secure: it not expose personal data or funds to a possible attacker. 
+- Secure: it not expose personal data or funds to a possible attacker.
 - Private: communications are encrypted and done anonymously.
 - Verifiable: the build process must be open and simple, so that anyone with a minimum tech-background can verify it.
-
 
 So here we are and this is what we have:
 
@@ -46,22 +45,23 @@ As Bob, you will have a dockerized node to access on your LAN. On port 50002, <a
 
 Your node will participate in the Bitcoin network exchanging blocks with other nodes through Tor; and optionally, it will be accesible from anywhere also through Tor.
 
-<div style="border-radius:20px;padding:5px;background-color:#0d1117">
-<img src=".doc/readme/diagram.svg"/>
-</div>
+<picture style="padding:5px">
+    <source srcset=".doc/readme/diagram-dark.drawio.svg"  media="(prefers-color-scheme: dark)">
+    <img src=".doc/readme/diagram-dark.drawio">
+</picture>
 
 The following services are deployed:
 
-| Container | Service | Base image | Size |
-| --- | --- | --- | --- |
-| tor | Tor 0.4.8.10 | debian:stable-slim | 99.6 MB |
-| bitcoind | Bitcoin core daemon 26.0 | debian:stable-slim | 86.6 MB |
-| electrs | Electrum rust service 0.10.1 | debian:stable-slim | 99.5 MB |
-| btcrpcexplorer | Bitcoin explorer 3.4.0 | node:16-slim | 333 MB |
-| nginx | NGINX stable | nginx:alpine-slim | 11.5 MB |
-
+| Container      | Service                      | Base image         | Size    |
+| -------------- | ---------------------------- | ------------------ | ------- |
+| tor            | Tor 0.4.8.10                 | debian:stable-slim | 99.6 MB |
+| bitcoind       | Bitcoin core daemon 26.0     | debian:stable-slim | 87 MB   |
+| electrs        | Electrum rust service 0.10.4 | debian:stable-slim | 99.8 MB |
+| btcrpcexplorer | Bitcoin explorer 3.4.0       | node:16-slim       | 333 MB  |
+| nginx          | NGINX stable                 | nginx:alpine-slim  | 11.5 MB |
 
 ## Documentation
+
 <a href="#documentation"></a>
 
 - <a href="./GETTING_STARTED.md">Getting started</a>
