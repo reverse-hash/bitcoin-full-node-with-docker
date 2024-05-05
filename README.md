@@ -54,8 +54,8 @@ The following services are deployed:
 
 | Container      | Service                      | Base image         | Size    |
 | -------------- | ---------------------------- | ------------------ | ------- |
-| tor            | Tor 0.4.8.10                 | debian:stable-slim | 99.6 MB |
-| bitcoind       | Bitcoin core daemon 26.0     | debian:stable-slim | 87 MB   |
+| tor            | Tor 0.4.8.11                 | debian:stable-slim | 99.6 MB |
+| bitcoind       | Bitcoin core daemon 27.0     | debian:stable-slim | 87 MB   |
 | electrs        | Electrum rust service 0.10.4 | debian:stable-slim | 99.8 MB |
 | btcrpcexplorer | Bitcoin explorer 3.4.0       | node:16-slim       | 333 MB  |
 | nginx          | NGINX stable                 | nginx:alpine-slim  | 11.5 MB |

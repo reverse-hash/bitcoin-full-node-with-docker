@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 services:
   tor:
     image: tor:$TOR_VERSION
@@ -70,6 +70,7 @@ services:
       - $ELECTRS_SSL_PORT:50002
     volumes:
       - $NGINX_DATA:/etc/nginx
+    restart: on-failure
     networks:
       default:
         ipv4_address: 172.18.0.6
