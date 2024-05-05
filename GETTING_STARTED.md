@@ -136,15 +136,15 @@ To generate your own passwords you can use the script available in the Bitcoin c
 $ cd /tmp
 $ curl https://raw.githubusercontent.com/bitcoin/bitcoin/master/share/rpcauth/rpcauth.py -s -o rpcauth.py
 $ python3 rpcauth.py btcrpcexplorer
-#String to be appended to bitcoin.conf:
-#rpcauth=btcrpcexplorer:0d46b997158b1396004ad5c742ca1dd5$7e98b6d4b00a62c16095038013a76a8ce71329ac195ddb1694308c552a1f8d93
-#Your password:
-#_PwADE_QHUCPE06hKNxaFbeWtKYB5DM7M6V43MKqDq0
+# String to be appended to bitcoin.conf:
+# rpcauth=btcrpcexplorer:0d46b997158b1396004ad5c742ca1dd5$7e98b6d4b00a62c16095038013a76a8ce71329ac195ddb1694308c552a1f8d93
+# Your password:
+# _PwADE_QHUCPE06hKNxaFbeWtKYB5DM7M6V43MKqDq0
 $ python3 rpcauth.py electrs
-#String to be appended to bitcoin.conf:
-#rpcauth=electrs:8fa8d4bfee39fe3640a504c59b5cf99a$83023437b424aa81bf476393bf1767c4ae00e818edb58daef390e814ac9a8238
-#Your password:
-#Myg7ikhuvQjnf3AvgtB4xiUQjXcN5Nkt0E_fGCJbCMw
+# String to be appended to bitcoin.conf:
+# rpcauth=electrs:8fa8d4bfee39fe3640a504c59b5cf99a$83023437b424aa81bf476393bf1767c4ae00e818edb58daef390e814ac9a8238
+# Your password:
+# Myg7ikhuvQjnf3AvgtB4xiUQjXcN5Nkt0E_fGCJbCMw
 $ rm /tmp/rpcauth.py
 ```
 
