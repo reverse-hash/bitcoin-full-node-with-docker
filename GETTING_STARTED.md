@@ -1,17 +1,17 @@
 # Getting started
 
-* <a href="#prerequisites">Prerequisites</a>
-* <a href="#setup-the-host-machine">Setup the host machine</a>
-* <a href="#setup-the-multi-container-applications">Setup the multi-container applications</a>
-* <a href="#running-services-for-the-first-time">Running services for the first time</a>
+- <a href="#prerequisites">Prerequisites</a>
+- <a href="#setup-the-host-machine">Setup the host machine</a>
+- <a href="#setup-the-multi-container-applications">Setup the multi-container applications</a>
+- <a href="#running-services-for-the-first-time">Running services for the first time</a>
   - <a href="#tor">tor</a>
   - <a href="#bitcoind">bitcoind</a>
   - <a href="#electrs">electrs</a>
   - <a href="#btc-rpc-explorer">btc-rpc-explorer</a>
   - <a href="#nginx">nginx</a>
-* <a href="#using-your-node">Using your node</a>
-* <a href="#post-installation">Post-installation</a>
-* <a href="#remote-access-to-your-node-via-tor-optional">Remote access to your node via tor (Optional)</a>
+- <a href="#using-your-node">Using your node</a>
+- <a href="#post-installation">Post-installation</a>
+- <a href="#remote-access-to-your-node-via-tor-optional">Remote access to your node via tor (Optional)</a>
 
 ## Prerequisites
 
@@ -28,7 +28,7 @@ As we need to download the entire blockchain (480GB to this day) and it keeps gr
 
 ## Setup the host machine
 
-Let's start from the point where we have a freshly installed Linux distribution, internet connection and a partition or hard disk connected with enough space. We also assume that the repository is cloned somewhere in your home folder and that we have already installed `docker` and `docker-compose`. 
+Let's start from the point where we have a freshly installed Linux distribution, internet connection and a partition or hard disk connected with enough space. We also assume that the repository is cloned somewhere in your home folder and that we have already installed `docker` and `docker-compose`.
 
 To make this guide as standardized as possible, we will use commands supported on most platforms. If for whatever reason it doesn't work, try to find the equivalent. But don't worry, there are not many and docker will do the rest.
 
@@ -69,7 +69,7 @@ $ sudo chmod +X -R /mnt/hdd/*
 
 ## Setup the multi-container applications
 
-The container environment must be defined in a file `.env` in the repository root directory. Just  make a copy of the sample file and edit it.
+The container environment must be defined in a file `.env` in the repository root directory. Just make a copy of the sample file and edit it.
 
 ```shell
 $ copy .env.example .env
@@ -88,9 +88,9 @@ ELECTRS_DATA=/mnt/hdd/electrs
 BTC_RPC_EXPLORER_DATA=/mnt/hdd/btcrpcexplorer
 NGINX_DATA=/mnt/hdd/nginx
 ```
-  
+
 ## Running services for the first time
-  
+
 For the first installation, we recommend starting the services one at a time. Take your time to verify by yourself the `Dockerfiles` and validate that the services are being deployed correctly.
 
 It is also important because bitcoind will take a long time to synchronize, and if in the meantime, the rest of the containers that depend on it are continuously failing because the service is not available, these are resources that will make the process take even longer.
@@ -104,7 +104,7 @@ Run the following command `docker-compose up -d tor` to start the service and ch
 For this example, we check the logs and everything looks good.
 
 ```shell
-$ docker-compose up tor -d 
+$ docker-compose up tor -d
 $ docker ps | grep tor
 # 06a96296854a   tor:12.0.1
 $ docker logs -f 06a96296854a
@@ -122,7 +122,7 @@ $ docker logs -f 06a96296854a
 
 ### bitcoind
 
-The bitcoind configuration file is located in `/mnt/hdd/bitcoind/bitcoin.conf`. The default parameters are enough, except for one that depends on the memory of your local machine.
+The bitcoind configuration file is located in `/mnt/hdd/bitcoind/bitcoin.conf`. The default parameters are enough, except for one that depends on the memory of your local machine and the default password for communication between services, which you should generate yourself for security reasons.
 
 The more cache bitcoind has, the faster it will be downloading and synchronizing the blocks. As a reference, you can set half of the machine memory expressed in MB. For example, if the node has 4GB of RAM, you can put 2048.
 
@@ -130,11 +130,31 @@ The more cache bitcoind has, the faster it will be downloading and synchronizing
 dbcache=2048
 ```
 
+To generate your own passwords you can use the script available in the Bitcoin core repository:
+
+```shell
+cd /tmp
+curl https://raw.githubusercontent.com/bitcoin/bitcoin/master/share/rpcauth/rpcauth.py -s -o rpcauth.py
+python3 rpcauth.py btcrpcexplorer
+#String to be appended to bitcoin.conf:
+#rpcauth=btcrpcexplorer:0d46b997158b1396004ad5c742ca1dd5$7e98b6d4b00a62c16095038013a76a8ce71329ac195ddb1694308c552a1f8d93
+#Your password:
+#_PwADE_QHUCPE06hKNxaFbeWtKYB5DM7M6V43MKqDq0
+python3 rpcauth.py electrs
+#String to be appended to bitcoin.conf:
+#rpcauth=electrs:8fa8d4bfee39fe3640a504c59b5cf99a$83023437b424aa81bf476393bf1767c4ae00e818edb58daef390e814ac9a8238
+#Your password:
+#Myg7ikhuvQjnf3AvgtB4xiUQjXcN5Nkt0E_fGCJbCMw
+rm /tmp/rpcauth.py
+```
+
+Replace the two strings in the configuration file and take note of the passwords for the next steps.
+
 This is the longest process and until it is finished we cannot continue. Your node will start synchronizing the entire blockchain with the rest of peers. This process can take days or even weeks. It's very difficult to give an estimation, because it depends on the capacity of your hardware, the state of the network, your connection speed... So be patient.
 
 Run the following command `docker-compose up -d bitcoind` to start the service and check the logs to be sure that the services is running properly.
 
-For this example, after a certain time, bitcoind was already synchronizing the 769944 block height (`height=769944`)  and almost all the blockchain was already synchronized (`progress=0.999838`). At the time of writing this document, this was the last block mined, so the node was synchronized and we can move the next step.
+For this example, after a certain time, bitcoind was already synchronizing the 769944 block height (`height=769944`) and almost all the blockchain was already synchronized (`progress=0.999838`). At the time of writing this document, this was the last block mined, so the node was synchronized and we can move the next step.
 
 ```shell
 $ docker-compose up bitcoind -d
@@ -157,12 +177,12 @@ $ docker logs -f 7cc89e57effb
 
 ### electrs
 
-The electrs configuration file is located in `/mnt/hdd/electrs/electrs.conf`. The default parameters are enough, but in case you're interested, you can review it.
+The electrs configuration file is located in `/mnt/hdd/electrs/electrs.conf`. The default parameters are enough, except for the password which must be replaced by the one generated earlier when configuring bitcoind.
 
 Run the following command `docker-compose up -d electrs` to start the service and check the logs to be sure that the service is running properly.
-  
+
 For this example, we can see that electrs has already indexed the entire blockchain (`height=769944`, same block height as bitcoind).
-  
+
 ```shell
 $ docker ps | grep electrs
 # 92ebe51900c9   electrs:0.9.12
@@ -172,15 +192,15 @@ $ docker logs -f 92ebe51900c9
 # [2023-01-02T15:45:56.705Z INFO  electrs::db] "/home/electrs/.electrs/db/bitcoin": 163 SST files, 39.804026748 GB, 4.979395287 Grows
 # [2023-01-02T17:17:50.099Z INFO  electrs::chain] chain updated: tip=000000000000000000021f6a20a394c43b89b13034e54ff3150e147a261a3b53, height=769944
 ```
-  
+
 ### btc-rpc-explorer
 
-The btc-rpc-explorer configuration file is located in `/mnt/hdd/btcrpcexplorer/btc-rpc-explorer.env`. The default parameters are also enough.
-  
+The btc-rpc-explorer configuration file is located in `/mnt/hdd/btcrpcexplorer/btc-rpc-explorer.env`. The default parameters are also enough, except for the password which must be replaced by the one generated earlier when configuring bitcoind.
+
 Run the following command `docker-compose up -d btcrpcexplorer` to start the service and check the logs to be sure that the service is running properly.
 
 For this example, we can see that the service has beed started and it's connected to bitcoind (`RPC Connected: ... subversion=/Satoshi:24.0.1`)
-  
+
 ```shell
 $ docker-compose up -d btcrpcexplorer
 $ docker ps | grep btcrpcexplorer
@@ -205,7 +225,7 @@ $ docker logs -f c8b93a8b9410
 ```
 
 ### nginx
-  
+
 The nginx configuration file is located in `/mnt/hdd/nginx/nginx.conf`. The default parameters are enough, but it will be necessary to create your our own SSL certificate to connect btc-rpc-explorer and electrs.
 
 So, move to the nginx data volume folder and generate a self-signed certificate running the following command:
@@ -217,11 +237,11 @@ $ openssl req -newkey rsa:4096 -x509 -sha256 -days 3650 -nodes -out certificate.
 ```
 
 Two files `certificate.crt` and `certificate.key` will be generated. It is important to use this name as they are specified in the nginx configuration file.
-  
+
 Finally, run the following command `docker-compose up -d nginx` to start the service and check the logs to be sure that the service is running properly.
 
 For this example, we can see that the service has beed started and it's connected to bitcoind.
-  
+
 ```shell
 $ docker ps | grep nginx
 # a811e7fd2455   nginx:alpine-slim 0.0.0.0:3003->3003/tcp, :::3003->3003/tcp, 80/tcp, 0.0.0.0:50002->50002/tcp, :::50002->50002/tcp
@@ -231,25 +251,26 @@ $ docker logs -f a811e7fd2455
 # /docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
 # /docker-entrypoint.sh: Configuration complete; ready for start up
 ```
+
 ## Using your node
 
 If you have reached this point, you should be able to access btc-rpc-explorer and electrs through nginx.
 
-- You can try to access to btc-rpc-explorer through the following URL: ```https://your_node_ip:3003```.
-- You can try to connect Sparrow or Electrum Wallet through the following URL: ```https://your_node_ip:50002``` 
+- You can try to access to btc-rpc-explorer through the following URL: `https://your_node_ip:3003`.
+- You can try to connect Sparrow or Electrum Wallet through the following URL: `https://your_node_ip:50002`
 
 **Important**: The SSL certificate we generate is self-signed, this means that it's not signed by a recognized authority. It is normal if your browser indicates that it is not secure with a warning. This does not mean that the connection is not encrypted. It is possible to generate a certificate with a recognized authority by paying or through certain registration processes. However, this is outside the scope of this document.
 
 ## Post-installation
 
 Once the node has been synchronized, we can change the bitcoind dbcache to the minimum. It is no longer necessary to have so much memory for this purpose.
-  
+
 Edit the bitcoind configuration file and change this parameter.
 
 ```conf
 dbcache=360
 ```
-  
+
 Take this as an opportunity to restart the whole infrastructure and verify that we can shutdown and start everything without any problem.
 
 ```shell
@@ -258,7 +279,7 @@ $ docker-compose up -d
 ```
 
 ## Remote access to your node via tor (Optional)
-  
+
 Tor allows you to expose services through a feature called hidden services. If we enable this, your node will expose services like btcrpcexplorer and electrs to the tor network, so you will be able to access them from anywhere if you have access to the tor network.
 
 Our recommendation is to enable it only if you are going to use it very often or to enable it only for a period of time when you need it and then disable it again. It's just a matter of configuring some settings and restarting the tor service. Take this into consideration because the node will be accessible to anyone who discovers the service, and although the node does not store any private key, it is still a service exposed to attacks.
