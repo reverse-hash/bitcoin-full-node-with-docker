@@ -19,16 +19,23 @@ RUN apt-get update \
   && cd .. \
   && ./autogen.sh \
   && ./configure \
-    --enable-glibc-back-compat \
     --prefix=$PWD/depends/$(gcc -dumpmachine) LDFLAGS="-static-libstdc++" \
     --disable-bench \
+    --disable-cli \
+    --disable-debug \
     --disable-man \
     --disable-tests \
+    --disable-upnp \
     --disable-wallet \
+    --disable-zmq \
     --with-qrencode=no \
     --enable-fuzz-binary=no \
+    --enable-strip \
     --without-gui \
+    --without-bdb \
+    --with-sqlite=no \    
   && make \
+  && gzexe src/bitcoind \
   && apt-get remove build-essential libtool autotools-dev automake pkg-config bsdmainutils libevent-dev libboost-dev curl python3 byacc git wget -y
 
 

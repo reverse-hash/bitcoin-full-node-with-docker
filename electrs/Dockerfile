@@ -8,6 +8,7 @@ RUN apt-get update \
   && wget -O - https://romanzey.de/pgp.txt | gpg --import \
   && git verify-tag v${ELECTRS_VERSION} \
   && cargo build --no-default-features --locked --release \
+  && gzexe target/release/electrs \
   && apt-get remove build-essential cargo cmake clang git wget -y
 
 

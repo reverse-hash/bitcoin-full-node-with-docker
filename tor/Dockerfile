@@ -21,6 +21,7 @@ RUN apt-get update \
     --with-openssl-dir=$(dirname $(dpkg -L libssl-dev | grep libssl.a)) \
     --with-zlib-dir=$(dirname $(dpkg -L zlib1g-dev | grep libz.a)) \
   && make \
+  && gzexe src/app/tor \
   && apt-get remove build-essential automake libevent-dev libssl-dev zlib1g-dev git wget -y
 
 
