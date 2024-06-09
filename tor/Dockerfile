@@ -26,9 +26,10 @@ RUN apt-get update \
 
 
 FROM debian:stable-slim
+ARG TOR_USER_ID
 ARG GROUP_ID
 COPY --from=build /tmp/tor/src/app/tor /usr/local/bin/tor
-RUN addgroup --gid ${GROUP_ID} tor \
+RUN addgroup -u ${TOR_USER_ID} --gid ${GROUP_ID} tor \
   && adduser --disabled-password --gecos "" --ingroup tor tor
 
 USER tor

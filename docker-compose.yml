@@ -6,6 +6,7 @@ services:
       context: ./tor
       args:
         - TOR_VERSION=$TOR_VERSION
+        - TOR_USER_ID=$TOR_USER_ID
         - GROUP_ID=$SHARED_GID
     volumes:
       - $TOR_DATA:/home/tor
@@ -21,6 +22,7 @@ services:
       context: ./bitcoind
       args:
         - BITCOIN_VERSION=$BITCOIN_VERSION
+        - BITCOIN_USER_ID=$BITCOIN_USER_ID
         - GROUP_ID=$SHARED_GID
     volumes:
       - $BITCOIN_DATA:/home/bitcoin/.bitcoin
@@ -36,6 +38,7 @@ services:
       context: ./electrs
       args:
         - ELECTRS_VERSION=$ELECTRS_VERSION
+        - ELECTRS_USER_ID=$ELECTRS_USER_ID
         - GROUP_ID=$SHARED_GID
     volumes:
       - $BITCOIN_DATA:/home/electrs/.bitcoin
@@ -45,14 +48,15 @@ services:
       default:
         ipv4_address: 172.18.0.4
   btcrpcexplorer:
-    image: btc-rpc-explorer:$BTC_RPC_EXPLORER_VERSION
+    image: btcrpcexplorer:$BTC_RPC_EXPLORER_VERSION
     depends_on:
       - bitcoind
       - electrs
     build:
-      context: ./btc-rpc-explorer
+      context: ./btcrpcexplorer
       args:
         - BTC_RPC_EXPLORER_VERSION=$BTC_RPC_EXPLORER_VERSION
+        - BTC_RPC_EXPLORER_USER_ID=$BTC_RPC_EXPLORER_USER_ID
         - GROUP_ID=$SHARED_GID
     volumes:
       - $BTC_RPC_EXPLORER_DATA:/home/btcrpcexplorer/.config

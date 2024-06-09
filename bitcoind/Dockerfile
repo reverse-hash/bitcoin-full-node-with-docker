@@ -5,6 +5,7 @@ RUN apt-get update \
   && cd /tmp \
   && wget https://raw.githubusercontent.com/bitcoin-core/guix.sigs/main/builder-keys/achow101.gpg \
   && wget https://raw.githubusercontent.com/bitcoin-core/guix.sigs/main/builder-keys/fanquake.gpg \
+  && wget https://raw.githubusercontent.com/bitcoin-core/guix.sigs/main/builder-keys/glozow.gpg \
   && wget https://raw.githubusercontent.com/bitcoin-core/guix.sigs/main/builder-keys/guggero.gpg \
   && wget https://raw.githubusercontent.com/bitcoin-core/guix.sigs/main/builder-keys/hebasto.gpg \
   && wget https://raw.githubusercontent.com/bitcoin-core/guix.sigs/main/builder-keys/theStack.gpg \
@@ -40,10 +41,11 @@ RUN apt-get update \
 
 
 FROM debian:stable-slim
+ARG BITCOIN_USER_ID
 ARG GROUP_ID
 COPY --from=build /tmp/bitcoin/src/bitcoind /usr/local/bin/bitcoind
 RUN addgroup --gid ${GROUP_ID} bitcoin \
-  && adduser --disabled-password --gecos "" --ingroup bitcoin bitcoin \
+  && adduser -u ${BITCOIN_USER_ID} --disabled-password --gecos "" --ingroup bitcoin bitcoin \
   && mkdir /home/bitcoin/.bitcoin \
   && chown bitcoin:bitcoin /home/bitcoin/.bitcoin
 

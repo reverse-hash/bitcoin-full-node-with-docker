@@ -89,6 +89,8 @@ BTC_RPC_EXPLORER_DATA=/mnt/hdd/btcrpcexplorer
 NGINX_DATA=/mnt/hdd/nginx
 ```
 
+Optionally, the user id of each service can be adjusted to match the user id of the host machine. Generally, this is not necessary as being in the same group is usually sufficient. However, some users have reported permission issues when accessing volume files in certain environments.
+
 ## Running services for the first time
 
 For the first installation, we recommend starting the services one at a time. Take your time to verify by yourself the `Dockerfiles` and validate that the services are being deployed correctly.
