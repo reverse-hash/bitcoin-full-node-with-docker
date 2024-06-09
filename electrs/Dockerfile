@@ -13,10 +13,11 @@ RUN apt-get update \
 
 
 FROM debian:stable-slim
+ARG ELECTRS_USER_ID
 ARG GROUP_ID
 COPY --from=build /tmp/electrs/target/release/electrs /usr/local/bin/electrs
 RUN addgroup --gid ${GROUP_ID} electrs \
-  && adduser --disabled-password --gecos "" --ingroup electrs electrs \
+  && adduser -u ${ELECTRS_USER_ID} --disabled-password --gecos "" --ingroup electrs electrs \
   && mkdir /home/electrs/.electrs \
   && chown electrs:electrs /home/electrs/.electrs
 

@@ -11,11 +11,12 @@ RUN apk add --update --no-cache git gpg gpg-agent nodejs npm python3 wget \
   && apk del git gpg gpg-agent nodejs npm python3 wget
 
 
-FROM node:16-slim
+FROM node:22-slim
+ARG BTC_RPC_EXPLORER_USER_ID
 ARG GROUP_ID
 COPY --from=build /opt/btc-rpc-explorer /opt/btc-rpc-explorer
 RUN addgroup --gid $GROUP_ID btcrpcexplorer \
-  && adduser --disabled-password --gecos "" --ingroup btcrpcexplorer btcrpcexplorer \
+  && adduser -u ${BTC_RPC_EXPLORER_USER_ID} --disabled-password --gecos "" --ingroup btcrpcexplorer btcrpcexplorer \
   && mkdir /home/btcrpcexplorer/.config \
   && chown btcrpcexplorer:btcrpcexplorer /home/btcrpcexplorer/.config \
   && cd /opt/btc-rpc-explorer
