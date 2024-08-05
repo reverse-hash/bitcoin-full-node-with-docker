@@ -10,4 +10,4 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Build service images
-        run: docker-compose --env-file .env.example build
+        run: docker compose --env-file .env.example build
