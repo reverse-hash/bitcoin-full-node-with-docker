@@ -154,12 +154,12 @@ Replace the two strings in the configuration file and take note of the passwords
 
 This is the longest process and until it is finished we cannot continue. Your node will start synchronizing the entire blockchain with the rest of peers. This process can take days or even weeks. It's very difficult to give an estimation, because it depends on the capacity of your hardware, the state of the network, your connection speed... So be patient.
 
-Run the following command `docker-compose up -d bitcoind` to start the service and check the logs to be sure that the services is running properly.
+Run the following command `docker compose up -d bitcoind` to start the service and check the logs to be sure that the services is running properly.
 
 For this example, after a certain time, bitcoind was already synchronizing the 769944 block height (`height=769944`) and almost all the blockchain was already synchronized (`progress=0.999838`). At the time of writing this document, this was the last block mined, so the node was synchronized and we can move the next step.
 
 ```shell
-$ docker-compose up bitcoind -d
+$ docker compose up bitcoind -d
 $ docker ps | grep bitcoind
 # 7cc89e57effb   bitcoind:24.0.1
 $ docker logs -f 7cc89e57effb
@@ -181,7 +181,7 @@ $ docker logs -f 7cc89e57effb
 
 The electrs configuration file is located in `/mnt/hdd/electrs/electrs.conf`. The default parameters are enough, except for the password which must be replaced by the one generated earlier when configuring bitcoind.
 
-Run the following command `docker-compose up -d electrs` to start the service and check the logs to be sure that the service is running properly.
+Run the following command `docker compose up -d electrs` to start the service and check the logs to be sure that the service is running properly.
 
 For this example, we can see that electrs has already indexed the entire blockchain (`height=769944`, same block height as bitcoind).
 
@@ -199,12 +199,12 @@ $ docker logs -f 92ebe51900c9
 
 The btc-rpc-explorer configuration file is located in `/mnt/hdd/btcrpcexplorer/btc-rpc-explorer.env`. The default parameters are also enough, except for the password which must be replaced by the one generated earlier when configuring bitcoind.
 
-Run the following command `docker-compose up -d btcrpcexplorer` to start the service and check the logs to be sure that the service is running properly.
+Run the following command `docker compose up -d btcrpcexplorer` to start the service and check the logs to be sure that the service is running properly.
 
 For this example, we can see that the service has beed started and it's connected to bitcoind (`RPC Connected: ... subversion=/Satoshi:24.0.1`)
 
 ```shell
-$ docker-compose up -d btcrpcexplorer
+$ docker compose up -d btcrpcexplorer
 $ docker ps | grep btcrpcexplorer
 # c8b93a8b9410   btc-rpc-explorer:3.3.0
 $ docker logs -f c8b93a8b9410
@@ -240,7 +240,7 @@ $ openssl req -newkey rsa:4096 -x509 -sha256 -days 3650 -nodes -out certificate.
 
 Two files `certificate.crt` and `certificate.key` will be generated. It is important to use this name as they are specified in the nginx configuration file.
 
-Finally, run the following command `docker-compose up -d nginx` to start the service and check the logs to be sure that the service is running properly.
+Finally, run the following command `docker compose up -d nginx` to start the service and check the logs to be sure that the service is running properly.
 
 For this example, we can see that the service has beed started and it's connected to bitcoind.
 
@@ -276,8 +276,8 @@ dbcache=360
 Take this as an opportunity to restart the whole infrastructure and verify that we can shutdown and start everything without any problem.
 
 ```shell
-$ docker-compose down
-$ docker-compose up -d
+$ docker compose down
+$ docker compose up -d
 ```
 
 ## Remote access to your node via tor (Optional)
@@ -301,7 +301,7 @@ HiddenServicePort 50002 nginx:50002
 Once the file has been edited, just restart tor.
 
 ```shell
-$ docker-compose restart tor
+$ docker compose restart tor
 ```
 
 Next, in the tor data volume you will find a folder for each hidden service. If you look inside, you will find a file with the hostname assigned.
