@@ -7,7 +7,7 @@
   - <a href="#tor">tor</a>
   - <a href="#bitcoind">bitcoind</a>
   - <a href="#electrs">electrs</a>
-  - <a href="#btc-rpc-explorer">btc-rpc-explorer</a>
+  - <a href="#btcrpcexplorer">btcrpcexplorer</a>
   - <a href="#nginx">nginx</a>
 - <a href="#using-your-node">Using your node</a>
 - <a href="#post-installation">Post-installation</a>
@@ -195,7 +195,7 @@ $ docker logs -f 92ebe51900c9
 # [2023-01-02T17:17:50.099Z INFO  electrs::chain] chain updated: tip=000000000000000000021f6a20a394c43b89b13034e54ff3150e147a261a3b53, height=769944
 ```
 
-### btc-rpc-explorer
+### btcrpcexplorer
 
 The btc-rpc-explorer configuration file is located in `/mnt/hdd/btcrpcexplorer/btc-rpc-explorer.env`. The default parameters are also enough, except for the password which must be replaced by the one generated earlier when configuring bitcoind.
 
