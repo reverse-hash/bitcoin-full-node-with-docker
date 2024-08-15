@@ -21,7 +21,7 @@ RUN apt-get update \
   && cd .. \
   && ./autogen.sh \
   && ./configure \
-    --prefix=$PWD/depends/$(gcc -dumpmachine) LDFLAGS="-static-libstdc++ --strip-all" \
+    --prefix=$PWD/depends/$(gcc -dumpmachine) LDFLAGS="-static-libstdc++ -s" \
     --disable-bench \
     --disable-cli \
     --disable-debug \
