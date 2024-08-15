@@ -24,7 +24,7 @@
 
 There are many alternatives to set up your own node. Some options seem too crafty and difficult to maintain, and others too customized that add extra complexity that makes auditing the node very difficult.
 
-Since no option was working for me, I decided to create this project and focus on the following points:
+Since no option was working for me, I decided to create this project.
 
 ## What to expect
 
