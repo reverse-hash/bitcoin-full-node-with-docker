@@ -24,12 +24,12 @@ RUN apt-get update \
     --prefix=$PWD/depends/$(gcc -dumpmachine) LDFLAGS="-static-libstdc++ -s" \
     --disable-bench \
     --disable-cli \
-    --disable-debug \
+    --disable-external-signer \
+    --disable-fuzz-binary \
     --disable-man \
     --disable-tests \
-    --with-qrencode=no \
-    --enable-fuzz-binary=no \
-    --enable-strip \ 
+    --enable-reduce-exports \
+    --without-utils \
   && make \
   && gzexe src/bitcoind \
   && apt-get remove automake autotools-dev bsdmainutils build-essential curl git libtool pkg-config -y
