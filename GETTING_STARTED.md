@@ -28,7 +28,7 @@ As we need to download the entire blockchain (480GB to this day) and it keeps gr
 
 ## Setup the host machine
 
-Let's start from the point where we have a freshly installed Linux distribution, internet connection and a partition or hard disk connected with enough space. We also assume that the repository is cloned somewhere in your home folder and that we have already installed `docker` and `docker-compose`.
+Let's start from the point where we have a freshly installed Linux distribution, internet connection and a partition or hard disk connected with enough space. We also assume that the repository is cloned somewhere in your home folder and that we have already installed `docker`.
 
 To make this guide as standardized as possible, we will use commands supported on most platforms. If for whatever reason it doesn't work, try to find the equivalent. But don't worry, there are not many and docker will do the rest.
 
