@@ -42,9 +42,9 @@ The following services are deployed:
 | Container      | Service                      | Base image         | Size     |
 | -------------- | ---------------------------- | ------------------ | -------- |
 | tor            | <a href="">Tor</a> 0.4.8.12 | debian:stable-slim | 83.2 MB |
-| bitcoind       | <a href="https://github.com/bitcoin/bitcoin">Bitcoin core</a> 27.1 | debian:stable-slim | 79.8 MB |
+| bitcoind       | <a href="https://github.com/bitcoin/bitcoin">Bitcoin core</a> 27.1 | debian:stable-slim | 79.7 MB |
 | electrs        | <a href="https://github.com/romanz/electrs">Electrum rust service</a> 0.10.5 | debian:stable-slim | 82.5 MB |
-| btcrpcexplorer | <a href="https://github.com/janoside/btc-rpc-explorer">Bitcoin RPC Explorer</a> 3.4.0 | node:22-slim | 366 MB |
+| btcrpcexplorer | <a href="https://github.com/janoside/btc-rpc-explorer">Bitcoin RPC Explorer</a> 3.4.0 | node:22-slim | 374 MB |
 | nginx          | <a href="https://github.com/nginxinc/docker-nginx">NGINX</a> stable | nginx:alpine-slim  | 11.5 MB  |
 
 ## Documentation
