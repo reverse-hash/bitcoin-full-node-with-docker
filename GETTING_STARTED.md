@@ -101,12 +101,12 @@ It is also important because bitcoind will take a long time to synchronize, and 
 
 In most of the cases, tor has all the configuration you need. The only configurable parameter that is not enabled by default are the hidden services and we will review it later. In case you want to customize anything, the tor configuration file is located in `/mnt/hdd/tor/torrc.default`.
 
-Run the following command `docker-compose up -d tor` to start the service and check the logs to be sure that the service is running properly.
+Run the following command `docker compose up -d tor` to start the service and check the logs to be sure that the service is running properly.
 
 For this example, we check the logs and everything looks good.
 
 ```shell
-$ docker-compose up tor -d
+$ docker compose up tor -d
 $ docker ps | grep tor
 # 06a96296854a   tor:12.0.1
 $ docker logs -f 06a96296854a
