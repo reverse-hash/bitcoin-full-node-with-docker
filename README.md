@@ -22,20 +22,9 @@
 
 ## About the project
 
-There are many alternatives to set up your own node. Some options seem too crafty and difficult to maintain, and others too customized that add extra complexity that makes auditing the node very difficult.
-
-Since no option was working for me, I decided to create this project.
-
-## What to expect
-
 As Bob, you will have a dockerized node to access on your LAN. On port 50002, <a href="https://github.com/romanz/electrs">Electrs</a> will be available to connect any Electrum compatible wallet and via HTTPS on port 3003, <a href="https://github.com/janoside/btc-rpc-explorer">BTC RPC Explorer</a> to explore the blockchain.
 
 Your node will participate in the Bitcoin network exchanging blocks with other nodes through Tor; and optionally, it will be accesible from anywhere also through Tor.
-
-<picture style="padding:5px">
-    <source srcset=".doc/readme/diagram-dark.drawio.svg"  media="(prefers-color-scheme: dark)">
-    <img src=".doc/readme/diagram-dark.drawio">
-</picture>
 
 The following services are deployed:
 
