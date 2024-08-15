@@ -24,24 +24,11 @@
 
 There are many alternatives to set up your own node. Some options seem too crafty and difficult to maintain, and others too customized that add extra complexity that makes auditing the node very difficult.
 
-Since no option was working for me, I decided to create this project and focus on the following points:
-
-- Simplicity: in the sense that anyone can understand the node arquitecture in a matter of minutes.
-- Lightweight: it can run on a low-resource computer.
-- Secure: it not expose personal data or funds to a possible attacker.
-- Private: communications are encrypted and done anonymously.
-- Verifiable: the build process must be open and simple, so that anyone with a minimum tech-background can verify it.
-
-So here we are and this is what we have:
-
-- A system to deploy and keep a Bitcoin node up to date in an automated way.
-- No third parties involved. All software is downloaded and verified from official sites.
-- The build process is based on `Docker` and a few `Dockerfiles`. No pre-builded images.
-- Everything is built on your local machine and you will verify it.
+Since no option was working for me, I decided to create this project.
 
 ## What to expect
 
-As Bob, you will have a dockerized node to access on your LAN. On port 50002, <a href="https://github.com/romanz/electrs">Electrs</a> will be available to connect <a href="https://github.com/spesmilo/electrum">Electrum</a>, <a href="https://github.com/sparrowwallet/sparrow">Sparrow</a>, <a href="https://github.com/bluewallet/bluewallet">Bluewallet</a> or any Electrum compatible wallet to check balances and/or broadcast any transaction privately; and via HTTPS on port 3003, <a href="https://github.com/janoside/btc-rpc-explorer">BTC RPC Explorer</a> to explore the blockchain.
+As Bob, you will have a dockerized node to access on your LAN. On port 50002, <a href="https://github.com/romanz/electrs">Electrs</a> will be available to connect any Electrum compatible wallet and via HTTPS on port 3003, <a href="https://github.com/janoside/btc-rpc-explorer">BTC RPC Explorer</a> to explore the blockchain.
 
 Your node will participate in the Bitcoin network exchanging blocks with other nodes through Tor; and optionally, it will be accesible from anywhere also through Tor.
 
@@ -54,11 +41,11 @@ The following services are deployed:
 
 | Container      | Service                      | Base image         | Size     |
 | -------------- | ---------------------------- | ------------------ | -------- |
-| tor            | Tor 0.4.8.12                 | debian:stable-slim | 83.2 MB  |
-| bitcoind       | Bitcoin core daemon 26.1     | debian:stable-slim | 80.2 MB  |
-| electrs        | Electrum rust service 0.10.5 | debian:stable-slim | 82.85 MB |
-| btcrpcexplorer | Bitcoin RPC Explorer 3.4.0   | node:22-slim       | 366 MB   |
-| nginx          | NGINX stable                 | nginx:alpine-slim  | 11.5 MB  |
+| tor            | <a href="https://gitlab.torproject.org/tpo/core/tor/">Tor</a> 0.4.8.12 | debian:stable-slim | 83.2 MB |
+| bitcoind       | <a href="https://github.com/bitcoin/bitcoin">Bitcoin core</a> 27.1 | debian:stable-slim | 79.7 MB |
+| electrs        | <a href="https://github.com/romanz/electrs">Electrum rust service</a> 0.10.5 | debian:stable-slim | 82.5 MB |
+| btcrpcexplorer | <a href="https://github.com/janoside/btc-rpc-explorer">Bitcoin RPC Explorer</a> 3.4.0 | node:22-slim | 374 MB |
+| nginx          | <a href="https://github.com/nginxinc/docker-nginx">NGINX</a> stable | nginx:alpine-slim  | 11.5 MB  |
 
 ## Documentation
 
