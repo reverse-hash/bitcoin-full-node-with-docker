@@ -1,7 +1,7 @@
 <div align="center">
   <h1>Bitcoin full node with docker</h1>
 
-  <img alt="Logo" src="./.doc/readme/logo.png" width="220"/>
+  <img alt="Logo" src="./.doc/readme/logo.png" width="160"/>
 
   <p>
     <strong>A simple way to deploy your own node with Docker!</strong>
@@ -22,9 +22,7 @@
 
 ## About the project
 
-As Bob, you will have a dockerized node to access on your LAN. On port 50002, <a href="https://github.com/romanz/electrs">Electrs</a> will be available to connect any Electrum compatible wallet and via HTTPS on port 3003, <a href="https://github.com/janoside/btc-rpc-explorer">BTC RPC Explorer</a> to explore the blockchain.
-
-Your node will participate in the Bitcoin network exchanging blocks with other nodes through Tor; and optionally, it will be accesible from anywhere also through Tor.
+Dockerized node to access on your LAN. On port 50002, <a href="https://github.com/romanz/electrs">Electrs</a> will be available to connect any Electrum compatible wallet and via HTTPS on port 3003, <a href="https://github.com/janoside/btc-rpc-explorer">BTC RPC Explorer</a> to explore the blockchain. The node will participate in the Bitcoin network by exchanging blocks with other nodes via Tor; and optionally, it will be accesible from anywhere also via Tor.
 
 The following services are deployed:
 
