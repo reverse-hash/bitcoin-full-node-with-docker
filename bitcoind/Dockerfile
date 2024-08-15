@@ -1,43 +1,38 @@
 FROM debian:stable-slim AS build
 ARG BITCOIN_VERSION
 RUN apt-get update \
-  && apt-get install build-essential libtool autotools-dev automake pkg-config bsdmainutils libevent-dev libboost-dev curl python3 byacc git wget -y \
+  && apt-get install automake autotools-dev bsdmainutils build-essential curl git libtool pkg-config -y \
   && cd /tmp \
-  && wget https://raw.githubusercontent.com/bitcoin-core/guix.sigs/main/builder-keys/achow101.gpg \
-  && wget https://raw.githubusercontent.com/bitcoin-core/guix.sigs/main/builder-keys/fanquake.gpg \
-  && wget https://raw.githubusercontent.com/bitcoin-core/guix.sigs/main/builder-keys/glozow.gpg \
-  && wget https://raw.githubusercontent.com/bitcoin-core/guix.sigs/main/builder-keys/guggero.gpg \
-  && wget https://raw.githubusercontent.com/bitcoin-core/guix.sigs/main/builder-keys/hebasto.gpg \
-  && wget https://raw.githubusercontent.com/bitcoin-core/guix.sigs/main/builder-keys/theStack.gpg \
-  && wget https://raw.githubusercontent.com/bitcoin-core/guix.sigs/main/builder-keys/vertiond.gpg \
-  && wget https://raw.githubusercontent.com/bitcoin-core/guix.sigs/main/builder-keys/willyko.gpg \
+  && curl \
+    -O https://raw.githubusercontent.com/bitcoin-core/guix.sigs/main/builder-keys/achow101.gpg \
+    -O https://raw.githubusercontent.com/bitcoin-core/guix.sigs/main/builder-keys/fanquake.gpg \
+    -O https://raw.githubusercontent.com/bitcoin-core/guix.sigs/main/builder-keys/glozow.gpg \
+    -O https://raw.githubusercontent.com/bitcoin-core/guix.sigs/main/builder-keys/guggero.gpg \
+    -O https://raw.githubusercontent.com/bitcoin-core/guix.sigs/main/builder-keys/hebasto.gpg \
+    -O https://raw.githubusercontent.com/bitcoin-core/guix.sigs/main/builder-keys/theStack.gpg \
+    -O https://raw.githubusercontent.com/bitcoin-core/guix.sigs/main/builder-keys/vertiond.gpg \
+    -O https://raw.githubusercontent.com/bitcoin-core/guix.sigs/main/builder-keys/willyko.gpg \
   && gpg --import *.gpg \
   && git clone -b v${BITCOIN_VERSION} https://github.com/bitcoin/bitcoin.git \
   && cd bitcoin \
   && git verify-tag v${BITCOIN_VERSION} \
   && cd depends \
-  && make HOST=$(gcc -dumpmachine) NO_QT=1 NO_ZMQ=1 NO_WALLET=1 NO_BDB=1 NO_SQLITE=1 \
+  && make HOST=$(gcc -dumpmachine) NO_BDB=1 NO_QT=1 NO_QR=1 NO_SQLITE=1 NO_NATPMP=1 NO_UPNP=1 NO_ZMQ=1 NO_USDT=1 NO_WALLET=1 NO_HARDEN=1 \
   && cd .. \
   && ./autogen.sh \
   && ./configure \
-    --prefix=$PWD/depends/$(gcc -dumpmachine) LDFLAGS="-static-libstdc++" \
+    --prefix=$PWD/depends/$(gcc -dumpmachine) LDFLAGS="-static-libstdc++ --strip-all" \
     --disable-bench \
     --disable-cli \
     --disable-debug \
     --disable-man \
     --disable-tests \
-    --disable-upnp \
-    --disable-wallet \
-    --disable-zmq \
     --with-qrencode=no \
     --enable-fuzz-binary=no \
-    --enable-strip \
-    --without-gui \
-    --without-bdb \
-    --with-sqlite=no \    
+    --enable-strip \ 
   && make \
   && gzexe src/bitcoind \
-  && apt-get remove build-essential libtool autotools-dev automake pkg-config bsdmainutils libevent-dev libboost-dev curl python3 byacc git wget -y
+  && apt-get remove automake autotools-dev bsdmainutils build-essential curl git libtool pkg-config -y
 
 
 FROM debian:stable-slim
