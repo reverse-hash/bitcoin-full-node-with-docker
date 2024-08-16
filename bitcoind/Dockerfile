@@ -21,7 +21,7 @@ RUN apt-get update \
   && cd .. \
   && ./autogen.sh \
   && ./configure \
-    --prefix=$PWD/depends/$(gcc -dumpmachine) LDFLAGS="-static-libstdc++ -s" \
+    --prefix=$PWD/depends/$(gcc -dumpmachine) LDFLAGS="-static-libstdc++ -g0" \
     --disable-bench \
     --disable-cli \
     --disable-external-signer \
