@@ -22,7 +22,9 @@
 
 ## About the project
 
-Dockerized node to access on your LAN. On port 50002, <a href="https://github.com/romanz/electrs">Electrs</a> will be available to connect any Electrum compatible wallet and via HTTPS on port 3003, <a href="https://github.com/janoside/btc-rpc-explorer">BTC RPC Explorer</a> to explore the blockchain. The node will participate in the Bitcoin network by exchanging blocks with other nodes via Tor; and optionally, it will be accesible from anywhere also via Tor.
+Deploy a dockerized node accessible from your local network (LAN). Electrs will be available for connecting any Electrum-compatible wallet and BTC Explorer will allow blockchain exploration.
+
+The node will participate in the Bitcoin network by exchanging blocks with other nodes via Tor. Optionally, it can also be made accessible from anywhere through Tor.
 
 The following services are deployed:
 
